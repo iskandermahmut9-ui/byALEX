@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>by AL☰X | Web Development</title>
+    <title>Web-разработка для Креаторов и Бизнеса | Сайты на чистом коде by AL☰X</title>
     
-    <meta name="description" content="Разработка сайтов на чистом коде.">
-    <meta property="og:title" content="by AL☰X">
+    <meta name="description" content="Разработка имиджевых сайтов и портфолио. Pure HTML/CSS. Без конструкторов и абонентской платы. Высокая скорость, уникальный дизайн, вечный доступ.">
+    <meta name="keywords" content="разработка сайта, сайт на чистом коде, веб-разработчик, создание портфолио, имиджевый сайт, html верстка, сайт без тильды, заказать сайт, сайт для бренда">
+    <meta property="og:title" content="by AL☰X | Ваш бизнес. Без шаблонов.">
+    <meta property="og:description" content="Премиальная веб-разработка. Платите один раз — сайт ваш навсегда.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;700;800&family=Pinyon+Script&family=JetBrains+Mono:wght@400;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;700;800&family=Pinyon+Script&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
 
     <style>
         /* --- 1. ГЛОБАЛЬНЫЕ НАСТРОЙКИ --- */
@@ -25,7 +27,6 @@
             --grid-size: 30px; 
         }
 
-        /* Глобальный сброс для точных размеров */
         *, *::before, *::after { box-sizing: border-box; }
 
         html { scroll-behavior: smooth; cursor: none; }
@@ -123,10 +124,12 @@
             backdrop-filter: blur(8px);
         }
 
-        /* --- 5. ХЕДЕР --- */
+        /* --- 5. ХЕДЕР (ФИКСИРОВАННАЯ СТРУКТУРА) --- */
         header {
-            padding: 30px 40px;
-            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 40px; 
+            display: flex; 
+            justify-content: space-between; /* Лого слева, Кнопка справа */
+            align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             position: sticky; top: 0; 
             background-color: rgba(14, 14, 14, 0.6); 
@@ -134,17 +137,32 @@
             z-index: 100;
         }
 
-        .brand-logo { display: flex; align-items: baseline; gap: 10px; transition: transform 0.3s ease; }
+        /* Логотип */
+        .brand-logo { 
+            display: flex; align-items: baseline; gap: 10px; 
+            transition: transform 0.3s ease;
+            text-decoration: none;
+        }
         .brand-logo:hover { transform: scale(1.05); }
         .brand-logo:hover .brand-name { color: var(--accent); }
+
         .brand-by { font-family: 'Pinyon Script', cursive; font-size: 1.8rem; color: var(--text-muted); text-transform: lowercase; }
         .brand-name { font-weight: 800; font-size: 2.2rem; letter-spacing: 2px; color: white; display: flex; align-items: center; }
+        
+        /* Бургер внутри буквы E */
         .burger-in-text { display: inline-flex; flex-direction: column; justify-content: space-between; width: 0.7em; height: 0.75em; margin: 0 2px; }
         .burger-line { width: 100%; height: 22%; background-color: white; border-radius: 1px; }
 
-        .nav-menu { display: flex; gap: 40px; margin: 0 40px; }
+        /* МЕНЮ ПО ЦЕНТРУ */
+        .nav-menu { 
+            display: flex; gap: 40px; 
+            position: absolute; 
+            left: 50%; 
+            transform: translateX(-50%); 
+        }
+        
         .nav-link {
-            font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; 
+            font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; 
             color: var(--text-muted); font-weight: 800; position: relative;
         }
         .nav-link:hover { color: white; }
@@ -175,7 +193,6 @@
             -webkit-mask-composite: xor; mask-composite: exclude;
             z-index: 2; opacity: 0; transition: opacity 0.3s; pointer-events: none;
         }
-        
         .glass-panel:hover::before, .glass-panel.mobile-hover::before { opacity: 1; }
 
         .glass-panel::after {
@@ -183,7 +200,6 @@
             background: radial-gradient(circle at center, rgba(255, 59, 111, 0.4) 0%, transparent 70%);
             opacity: 0; border-radius: inherit; transition: all 0.4s ease; transform: scale(0.8);
         }
-
         .glass-panel:hover, .glass-panel.mobile-hover {
             transform: translateY(-8px) scale(1.01);
             box-shadow: 0 30px 60px rgba(0,0,0,0.7);
@@ -191,7 +207,7 @@
         }
         .glass-panel:hover::after, .glass-panel.mobile-hover::after { opacity: 1; transform: scale(1.1) translateY(10px); }
 
-        /* --- ГЛИТЧ ТЕКСТА --- */
+        /* --- ГЛИТЧ --- */
         .glitch-effect {
             position: relative;
             text-shadow: 4px 0 rgba(255, 0, 80, 0.8), -4px 0 rgba(0, 255, 255, 0.8);
@@ -210,99 +226,62 @@
 
         /* --- КНОПКИ --- */
         .cta-btn, .case-btn-full {
-            display: inline-block; 
-            text-align: center; 
-            
-            white-space: normal; 
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            width: fit-content; 
-            max-width: 100%;
-            
-            padding: 14px 30px;
-            font-size: 0.9rem; 
-            text-transform: uppercase; font-weight: 700; letter-spacing: 1.5px;
-            color: #fff;
-            border-radius: var(--radius-btn);
+            display: inline-block; text-align: center; white-space: normal; 
+            word-wrap: break-word; overflow-wrap: break-word;
+            width: fit-content; max-width: 100%;
+            padding: 12px 25px; font-size: 0.85rem; text-transform: uppercase; font-weight: 700; letter-spacing: 1.5px;
+            color: #fff; border-radius: var(--radius-btn);
             transition: all 0.3s ease;
         }
         
-        .case-btn-full { width: 100%; }
-
-        /* HOVER (ПК) и Virtual Cursor (Mobile) - подъем вверх */
-        .cta-btn:hover, .case-btn-full:hover,
-        .cta-btn.mobile-hover, .case-btn-full.mobile-hover { 
-            background-color: rgba(255, 59, 111, 0.2); 
-            color: white; 
-            transform: translateY(-3px);
+        /* Кнопка в кейсах (на всю ширину левой колонки) + ОТСТУП */
+        .case-btn-full { 
+            width: 100%; 
+            margin-top: 20px; /* Отступ сверху от цены */
         }
-
-        /* ACTIVE (Нажатие на ПК и Мобильном) - вдавливание вниз */
+        
+        .cta-btn:hover, .case-btn-full:hover, .cta-btn.mobile-hover, .case-btn-full.mobile-hover { 
+            background-color: rgba(255, 59, 111, 0.2); color: white; transform: translateY(-3px);
+        }
         .cta-btn:active, .case-btn-full:active {
-            transform: translateY(2px) !important; 
-            background-color: rgba(255, 59, 111, 0.3);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5); 
-            transition: all 0.1s;
+            transform: translateY(2px) !important; background-color: rgba(255, 59, 111, 0.3); box-shadow: 0 2px 10px rgba(0,0,0,0.5); transition: all 0.1s;
         }
-
         header .cta-btn { background-color: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.2); }
 
         /* --- ТИПОГРАФИКА --- */
         h1 { 
-            font-size: clamp(2.5rem, 8vw, 5.5rem); 
-            line-height: 1.1; margin: 0 0 30px 0; color: white; text-transform: uppercase;
-            font-family: 'JetBrains Mono', monospace; letter-spacing: -2px;
-            display: inline-block; cursor: none; 
+            font-size: clamp(2.5rem, 8vw, 5.5rem); line-height: 1.1; margin: 0 0 30px 0; color: white; text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace; letter-spacing: -2px; display: inline-block; cursor: none; 
         }
         h2 { 
-            font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(2rem, 6vw, 4rem); 
+            font-family: 'JetBrains Mono', monospace; font-size: clamp(2rem, 6vw, 4rem); 
             line-height: 1.1; letter-spacing: -2px; margin-bottom: 40px; color: white; text-transform: uppercase; font-weight: 400;
             display: inline-block; cursor: none; transition: transform 0.4s ease-out;
         }
         h2:hover { transform: scale(1.02); color: var(--accent); }
         p { font-size: 1rem; line-height: 1.7; color: var(--text-muted); }
 
-        .fade-in-section {
-            opacity: 0; transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-            will-change: opacity, transform;
-        }
+        .fade-in-section { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, transform; }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
 
         /* --- СЕКЦИИ --- */
         section { padding: 100px 40px; border-bottom: 1px solid rgba(255,255,255,0.05); z-index: 5; position: relative;}
+        
         .hero { padding-top: 140px; padding-bottom: 140px; background: transparent; position: relative; display: flex; flex-direction: column; }
         .hero-subtitle { display: block; width: 100%; color: var(--accent); font-size: 1.3rem; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 25px; font-weight: 600; }
-        .hero p { font-size: 1.4rem; max-width: 800px; margin-top: 30px; color: #ccc; }
+        .hero-text-block span { display: block; font-size: 1.4rem; margin-bottom: 10px; color: #ccc; }
 
-        /* ================================================================= */
-        /* === ГЛОБАЛЬНАЯ ФАНТОМНАЯ КАРТИНКА (НОВАЯ АНИМАЦИЯ ЗУМА) === */
-        /* ================================================================= */
+        /* === ФАНТОМНАЯ КАРТИНКА === */
         .global-phantom-img {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 80vw; height: 80vh; object-fit: contain;
-            opacity: 0; pointer-events: none; z-index: -2;
-            mix-blend-mode: screen; 
-            filter: grayscale(100%) sepia(100%) hue-rotate(290deg) saturate(300%) drop-shadow(0 0 15px var(--accent));
+            width: 80vw; height: 80vh; object-fit: contain; opacity: 0; pointer-events: none; z-index: -2;
+            mix-blend-mode: screen; filter: grayscale(100%) sepia(100%) hue-rotate(290deg) saturate(300%) drop-shadow(0 0 15px var(--accent));
         }
-
         @keyframes phantom-zoom-vanish {
-            0% {
-                opacity: 0.8;
-                transform: translate(-50%, -50%) scale(0.9);
-                filter: grayscale(100%) sepia(100%) hue-rotate(290deg) saturate(500%) brightness(1.5) drop-shadow(0 0 50px var(--accent));
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(3);
-                filter: grayscale(100%) sepia(100%) hue-rotate(290deg) saturate(300%) drop-shadow(0 0 15px var(--accent));
-            }
+            0% { opacity: 0.8; transform: translate(-50%, -50%) scale(0.9); filter: grayscale(100%) sepia(100%) hue-rotate(290deg) saturate(500%) brightness(1.5) drop-shadow(0 0 50px var(--accent)); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(3); filter: grayscale(100%) sepia(100%) hue-rotate(290deg) saturate(300%) drop-shadow(0 0 15px var(--accent)); }
         }
-
-        .global-phantom-img.active {
-            animation: phantom-zoom-vanish 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-        }
+        .global-phantom-img.active { animation: phantom-zoom-vanish 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards; }
 
         /* --- КЕЙСЫ --- */
         .cases { padding: 80px 40px; }
@@ -330,20 +309,33 @@
         .story-list li { font-size: 0.9rem; color: #ccc; padding-left: 12px; margin-bottom: 3px; position: relative; list-style: none;}
         .story-list li::before { content: "•"; position: absolute; left: 0; color: var(--accent); top: 0px;}
         
-        /* --- ОСТАЛЬНЫЕ БЛОКИ --- */
+        /* --- АНАЛИЗ (ГАЛОЧКИ И КРЕСТИКИ) --- */
         .comparison-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; border: none; }
         .comp-item { padding: 30px; display: flex; flex-direction: column; border-radius: var(--radius-card); }
         .comp-item.winner { border-color: rgba(255, 59, 111, 0.5); background-color: rgba(30, 30, 30, 0.8); }
-        .comp-title { font-size: 1.2rem; margin-bottom: 20px; color: white; text-transform: uppercase; letter-spacing: 1px; min-height: 40px;}
-        .comp-list { padding: 0; margin: 0; list-style: none;}
-        .comp-list li { margin-bottom: 15px; font-size: 0.9rem; color: var(--text-muted); gap: 10px; display: flex;}
-        .price-highlight { display: block; font-size: 1.3rem; color: var(--accent); font-weight: 700; margin-bottom: 4px; font-family: 'JetBrains Mono';}
-        .good { color: var(--accent); } .bad { color: #ff4d4d; } .neutral { color: #aaa; }
+        .comp-title { font-size: 1.2rem; margin-bottom: 20px; color: white; text-transform: uppercase; letter-spacing: 1px; min-height: 40px; font-family: 'JetBrains Mono';}
+        .comp-title span { font-size: 0.7em; opacity: 0.6; display: block; margin-top: 5px; text-transform: none; letter-spacing: 0; font-family: 'Manrope';}
+        
+        .comp-logo-wrapper { display: flex; align-items: baseline; gap: 10px; margin-bottom: 5px; }
+        .comp-logo-wrapper .brand-by { font-family: 'Pinyon Script', cursive; font-size: 1.5rem; color: var(--text-muted); text-transform: lowercase; }
+        .comp-logo-wrapper .brand-name { font-weight: 800; font-size: 1.8rem; letter-spacing: 2px; color: white; display: flex; align-items: center; }
 
-        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 60px; border: none; }
-        .price-card { padding: 35px 30px; border-radius: var(--radius-card); }
-        .price-amount { font-size: 2.2rem; color: var(--accent); font-weight: 700; margin: 10px 0; font-family: 'JetBrains Mono'; }
-        .price-name { font-size: 0.8rem; color: #777; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;}
+        .comp-list { padding: 0; margin: 0; list-style: none;}
+        .comp-list li { margin-bottom: 15px; font-size: 0.9rem; color: var(--text-muted); gap: 10px; display: flex; align-items: flex-start;}
+        
+        .price-highlight { display: block; font-size: 1.3rem; color: var(--accent); font-weight: 700; margin-bottom: 4px; font-family: 'JetBrains Mono';}
+        .good { color: var(--accent); font-weight: bold; min-width: 20px; font-size: 1.2rem;}
+        .bad { color: #ff4d4d; font-weight: bold; min-width: 20px; font-size: 1.2rem;}
+        .neutral { color: #aaa; font-weight: bold; min-width: 20px; font-size: 1.2rem;}
+
+        /* --- ТАРИФЫ --- */
+        .pricing-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-top: 60px; border: none; }
+        .price-card { padding: 30px 20px; border-radius: var(--radius-card); display: flex; flex-direction: column; min-height: 450px; justify-content: space-between; }
+        .price-amount { font-size: 2.5rem; color: var(--accent); font-weight: 700; margin: 10px 0 20px 0; font-family: 'JetBrains Mono'; white-space: nowrap; }
+        .price-name { font-size: 1rem; color: #fff; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; min-height: 30px;}
+        .price-list { padding: 0; margin: 0; list-style: none; }
+        .price-list li { font-size: 0.85rem; color: #ccc; margin-bottom: 10px; position: relative; padding-left: 15px; line-height: 1.3; }
+        .price-list li::before { content: "›"; position: absolute; left: 0; color: var(--accent); font-weight: bold; top: -1px; }
 
         /* Footer */
         footer { padding: 80px 40px 40px 40px; border-top: 1px solid rgba(255,255,255,0.05); background: transparent; }
@@ -362,43 +354,42 @@
         /* ========================================= */
         /* === MEDIA QUERIES (АДАПТИВНОСТЬ) === */
         /* ========================================= */
+        @media (max-width: 1200px) {
+            .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+            .price-card { min-height: auto; }
+        }
+
         @media (max-width: 900px) {
-            /* ПЕРЕСТРАИВАЕМ ШАПКУ В КОЛОНКУ */
             header {
-                flex-direction: column;
-                gap: 20px;
-                padding: 20px;
+                display: grid;
+                grid-template-columns: 1fr auto; 
+                grid-template-rows: auto auto; 
+                gap: 15px; padding: 15px 20px;
             }
-
-            /* ВОЗВРАЩАЕМ МЕНЮ */
-            .nav-menu {
-                display: flex;
-                margin: 0;
-                gap: 20px;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .nav-link {
-                font-size: 1rem;
-            }
-
-            /* Центрируем кнопку */
-            header .cta-btn { margin: 0; }
+            .brand-logo { grid-column: 1; justify-self: start; }
+            .brand-name { font-size: 1.6rem; }
             
-            /* Остальные мобильные стили */
+            header .cta-btn { 
+                grid-column: 2; justify-self: end; margin: 0; padding: 10px 15px; font-size: 0.8rem;
+            }
+            
+            .nav-menu {
+                grid-column: 1 / -1; grid-row: 2; position: static; transform: none;
+                display: flex; justify-content: space-between; margin: 0; gap: 5px;
+                border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;
+            }
+            .nav-link { font-size: 0.85rem; letter-spacing: 0.5px; }
+
             .cases-grid-container { grid-template-columns: 1fr; gap: 30px; }
             .case-card { grid-template-columns: 1fr; }
             .case-left-col { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); }
             .comparison-grid { grid-template-columns: 1fr; }
-            .brand-name { font-size: 1.8rem; }
-            .brand-by { font-size: 1.4rem; }
             .global-phantom-img { width: 90vw; height: auto; }
             .case-btn-full { padding: 14px 20px; font-size: 0.85rem; }
         }
 
         @media (max-width: 768px) {
             section { padding: 60px 20px; }
-            /* header уже настроен в 900px */
             .cases { padding: 60px 20px; }
             .pricing-grid { grid-template-columns: 1fr; }
             .footer-bottom { flex-direction: column; align-items: flex-start; }
@@ -427,20 +418,28 @@
             <span class="brand-by">by</span>
             <span class="brand-name">AL<div class="burger-in-text"><div class="burger-line"></div><div class="burger-line"></div><div class="burger-line"></div></div>X</span>
         </a>
+        
         <nav class="nav-menu">
             <a href="#cases" class="nav-link">Кейсы</a>
-            <a href="#comparison" class="nav-link">Сравнение</a>
+            <a href="#comparison" class="nav-link">Анализ</a>
             <a href="#pricing" class="nav-link">Тарифы</a>
         </nav>
+
         <a href="#contact" class="cta-btn glass-panel">Написать мне</a>
     </header>
 
     <section class="hero fade-in-section">
-        <div class="hero-subtitle">Web Development for Creators</div>
-        <h1 class="hover-matrix glitch-target" data-value="Ваше портфолио.
-Без аренды.
-Навсегда.">Ваше портфолио.<br>Без аренды.<br>Навсегда.</h1>
-        <p>Разрабатываю сайты на чистом коде для архитекторов, визуализаторов и дизайнеров. Забудьте о платежах за Тильду. Вы платите один раз — сайт принадлежит вам.</p>
+        <div class="hero-subtitle">High-Performance Web Development</div>
+        <h1 class="hover-matrix glitch-target" data-value="ВАШ БИЗНЕС.
+БЕЗ ШАБЛОНОВ.
+НАВСЕГДА.">ВАШ БИЗНЕС.<br>БЕЗ ШАБЛОНОВ.<br>НАВСЕГДА.</h1>
+        
+        <p class="hero-text-block">
+            <span>Разрабатываю уникальные сайты на <strong>Pure HTML/CSS</strong> для тех, кто перерос конструкторы.</span>
+            <span>Креаторы, Стартапы, Визуализаторы и Бренды.</span>
+            <span>Вы получаете сайт с характером, который принадлежит вам на 100%.</span>
+            <span>Никаких ежемесячных платежей.</span>
+        </p>
     </section>
 
     <section class="cases fade-in-section" id="cases">
@@ -457,22 +456,59 @@
                     </div>
                     <div class="case-meta">
                         <div class="tech-specs">
-                            <div class="spec-item"><span class="spec-label">Технология</span><span class="spec-value">Pure HTML/CSS</span></div>
+                            <div class="spec-item"><span class="spec-label">Срок реализации</span><span class="spec-value scramble-num">3 дня</span></div>
                             <div class="spec-item"><span class="spec-label">Стоимость</span><span class="spec-value scramble-num">15 000 ₽</span></div>
-                            <div class="spec-item"><span class="spec-label">Срок сдачи</span><span class="spec-value scramble-num">4 дня</span></div>
                         </div>
+                        <a href="https://3dcross.ru" target="_blank" class="case-btn-full glass-panel">Смотреть сайт live ↗</a>
                     </div>
                 </div>
                 <div class="case-right-col">
-                    <div class="case-tag">Architecture & CGI</div>
+                    <div class="case-tag">CGI & Production</div>
                     <h3 class="case-title hover-matrix" data-value="3D\CROSS">3D\CROSS</h3>
-                    <div class="story-block"><div class="story-label">Контекст</div><p class="story-text">Ранее студия использовала PDF и ссылки на Google Диск. Это снижало статус в глазах премиум-заказчиков.</p></div>
-                    <div class="story-block"><div class="story-label">Решения</div><ul class="story-list"><li><strong>Ken Burns Slider:</strong> Кинематографичное погружение.</li><li><strong>Smart Video:</strong> Автовозврат к обложке.</li><li><strong>Lightbox:</strong> Просмотр 4K-рендеров.</li></ul></div>
-                    <a href="https://3dcross.ru" target="_blank" class="case-btn-full glass-panel">Смотреть сайт live ↗</a>
+                    <div class="story-block"><div class="story-label">Задача</div><p class="story-text">Упаковать портфолио студии так, чтобы оно мгновенно грузилось на смартфонах и выглядело дороже, чем PDF-презентация.</p></div>
+                    <div class="story-block">
+                        <div class="story-label">Дизайн и Фишки</div>
+                        <ul class="story-list">
+                            <li>Cinematic Slider: Эффект плавного наезда камеры (Ken Burns).</li>
+                            <li>Smart Video: Автовозврат к обложке.</li>
+                            <li>Lightbox 4K: Просмотр рендеров в полном качестве без задержек.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
-            <div class="case-card glass-panel glitch-target" style="opacity: 0.7;" data-tilt>
+            <div class="case-card glass-panel glitch-target" data-tilt>
+                <div class="case-left-col">
+                    <div class="case-visual-wrapper">
+                        <div class="browser-window">
+                            <div class="browser-header"><div class="browser-dot dot-red"></div><div class="browser-dot dot-yellow"></div><div class="browser-dot dot-green"></div></div>
+                            <div class="case-image" style="background-image: url('case-dg.jpg');"></div>
+                        </div>
+                    </div>
+                    <div class="case-meta">
+                        <div class="tech-specs">
+                            <div class="spec-item"><span class="spec-label">Срок реализации</span><span class="spec-value scramble-num">5 дней</span></div>
+                            <div class="spec-item"><span class="spec-label">Стоимость</span><span class="spec-value scramble-num">40 000 ₽</span></div>
+                        </div>
+                        <a href="https://d-gavrilenko.ru" target="_blank" class="case-btn-full glass-panel">Смотреть сайт live ↗</a>
+                    </div>
+                </div>
+                <div class="case-right-col">
+                    <div class="case-tag">SMM & Personal Brand</div>
+                    <img src="logo.png" alt="SMM Manager Logo" class="case-title-logo" style="max-height: 45px; width: auto; object-fit: contain; align-self: flex-start; margin-bottom: 20px; display: block;">
+                    <div class="story-block"><div class="story-label">Задача</div><p class="story-text">Разработать имиджевый сайт для начинающего SMM менеджера. Показать его портфолио и достижения. Сделана вторая страница, чтобы не перегружать информацией главную страницу.</p></div>
+                    <div class="story-block">
+                        <div class="story-label">Дизайн и Фишки</div>
+                        <ul class="story-list">
+                            <li>Multipage Structure: Разделение главной и портфолио.</li>
+                            <li>Smooth Scroll: Плавная прокрутка (Lenis).</li>
+                            <li>Adaptive Grid: Удобный просмотр кейсов.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="case-card glass-panel glitch-target" style="opacity: 0.8;" data-tilt>
                 <div class="case-left-col">
                     <div class="case-visual-wrapper">
                         <div class="browser-window" style="height: 100%; display: flex; align-items: center; justify-content: center; background: #111;">
@@ -481,20 +517,28 @@
                     </div>
                     <div class="case-meta">
                         <div class="tech-specs">
-                            <div class="spec-item"><span class="spec-label">Технология</span><span class="spec-value">—</span></div>
-                            <div class="spec-item"><span class="spec-label">Стоимость</span><span class="spec-value">—</span></div>
+                            <div class="spec-item"><span class="spec-label">Срок реализации</span><span class="spec-value scramble-num">5 дней</span></div>
+                            <div class="spec-item"><span class="spec-label">Стоимость</span><span class="spec-value scramble-num">—</span></div>
                         </div>
+                        <button class="case-btn-full glass-panel" disabled style="opacity: 0.5; cursor: not-allowed;">В разработке</button>
                     </div>
                 </div>
                 <div class="case-right-col">
-                    <div class="case-tag">Interior Design</div>
-                    <h3 class="case-title">NEXT PROJECT</h3>
-                    <div class="story-block"><p class="story-text">Скоро здесь появится новый крутой кейс по разработке сайта для студии интерьерного дизайна.</p></div>
-                    <button class="case-btn-full glass-panel" disabled style="opacity: 0.5; cursor: not-allowed;">В разработке</button>
+                    <div class="case-tag">Tech & Startups</div>
+                    <h3 class="case-title">CRYPTO STARTUP</h3>
+                    <div class="story-block"><div class="story-label">Задача</div><p class="story-text">Вызвать доверие инвесторов и показать технологичность продукта без использования тяжелых 3D-библиотек.</p></div>
+                    <div class="story-block">
+                        <div class="story-label">Дизайн и Фишки</div>
+                        <ul class="story-list">
+                            <li>Neon Glass: Глубокий эффект матового стекла.</li>
+                            <li>Data Scramble: Анимация цифр (как у нас на сайте).</li>
+                            <li>Interactive Roadmap: Живая карта развития проекта.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
-            <div class="case-card glass-panel glitch-target" style="opacity: 0.7;" data-tilt>
+            <div class="case-card glass-panel glitch-target" style="opacity: 0.8;" data-tilt>
                 <div class="case-left-col">
                     <div class="case-visual-wrapper">
                         <div class="browser-window" style="height: 100%; display: flex; align-items: center; justify-content: center; background: #111;">
@@ -503,65 +547,59 @@
                     </div>
                     <div class="case-meta">
                         <div class="tech-specs">
-                            <div class="spec-item"><span class="spec-label">Технология</span><span class="spec-value">—</span></div>
-                            <div class="spec-item"><span class="spec-label">Стоимость</span><span class="spec-value">—</span></div>
+                            <div class="spec-item"><span class="spec-label">Срок реализации</span><span class="spec-value scramble-num">2 дня</span></div>
+                            <div class="spec-item"><span class="spec-label">Стоимость</span><span class="spec-value scramble-num">—</span></div>
                         </div>
+                        <button class="case-btn-full glass-panel" disabled style="opacity: 0.5; cursor: not-allowed;">В разработке</button>
                     </div>
                 </div>
                 <div class="case-right-col">
-                    <div class="case-tag">E-Commerce</div>
-                    <h3 class="case-title">NEXT PROJECT</h3>
-                    <div class="story-block"><p class="story-text">Проект интернет-магазина для бренда одежды с нестандартной сеткой и 3D-моделями.</p></div>
-                    <button class="case-btn-full glass-panel" disabled style="opacity: 0.5; cursor: not-allowed;">В разработке</button>
-                </div>
-            </div>
-
-            <div class="case-card glass-panel glitch-target" style="opacity: 0.7;" data-tilt>
-                <div class="case-left-col">
-                    <div class="case-visual-wrapper">
-                        <div class="browser-window" style="height: 100%; display: flex; align-items: center; justify-content: center; background: #111;">
-                            <span style="color: #444; font-family: 'JetBrains Mono';">SOON</span>
-                        </div>
+                    <div class="case-tag">Personal Brand</div>
+                    <h3 class="case-title">PERSONAL MEDIA KIT</h3>
+                    <div class="story-block"><div class="story-label">Задача</div><p class="story-text">Собрать все ссылки, гайды и контакты в одном стильном месте, заменив скучный Linktree.</p></div>
+                    <div class="story-block">
+                        <div class="story-label">Дизайн и Фишки</div>
+                        <ul class="story-list">
+                            <li>Dark Mode UI: Премиальная темная тема.</li>
+                            <li>Bio-Link: Быстрые кнопки мессенджеров.</li>
+                            <li>Instant Load: Моментальная загрузка из Instagram/TikTok.</li>
+                        </ul>
                     </div>
-                    <div class="case-meta">
-                        <div class="tech-specs">
-                            <div class="spec-item"><span class="spec-label">Технология</span><span class="spec-value">—</span></div>
-                            <div class="spec-item"><span class="spec-label">Стоимость</span><span class="spec-value">—</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="case-right-col">
-                    <div class="case-tag">Portfolio</div>
-                    <h3 class="case-title">NEXT PROJECT</h3>
-                    <div class="story-block"><p class="story-text">Минималистичное портфолио для фотографа с горизонтальным скроллом и галереей.</p></div>
-                    <button class="case-btn-full glass-panel" disabled style="opacity: 0.5; cursor: not-allowed;">В разработке</button>
                 </div>
             </div>
         </div>
     </section>
 
     <section class="fade-in-section" id="comparison">
-        <h2 class="hover-matrix glitch-target" data-value="Сравнение вариантов">Сравнение вариантов</h2>
+        <h2 class="hover-matrix glitch-target" data-value="АНАЛИЗ">АНАЛИЗ</h2>
         <div class="comparison-grid">
             <div class="comp-item glass-panel glitch-target" data-tilt>
-                <div class="comp-title">Конструкторы<br><span style="font-size:0.8em; opacity:0.6;">(Tilda, Wix)</span></div>
+                <div class="comp-title">Конструкторы<br><span>(Tilda, Wix)</span></div>
                 <ul class="comp-list">
                     <li><span class="bad">✕</span> <div><span class="price-highlight scramble-num">12 000 ₽ / год</span>Аренда навсегда</div></li>
                     <li><span class="bad">✕</span> Сайт вам не принадлежит</li>
-                    <li><span class="good" style="color:#fff">✓</span> Делается быстро</li>
+                    <li><span class="good">✓</span> Делается быстро</li>
                 </ul>
             </div>
+            
             <div class="comp-item glass-panel glitch-target" data-tilt>
-                <div class="comp-title">Веб-студии<br><span style="font-size:0.8em; opacity:0.6;">(Агентства)</span></div>
+                <div class="comp-title">Веб-студии<br><span>(Агентства)</span></div>
                 <ul class="comp-list">
                     <li><span class="bad">✕</span> <div><span class="price-highlight scramble-num">50 000 ₽ +</span>Высокая цена</div></li>
-                    <li><span class="good" style="color:#fff">✓</span> Уникальный дизайн</li>
+                    <li><span class="good">✓</span> Уникальный дизайн</li>
                     <li><span class="bad">✕</span> Долго (от 3 недель)</li>
                     <li><span class="neutral">!</span> Сложная коммуникация</li>
                 </ul>
             </div>
+
             <div class="comp-item winner glass-panel glitch-target" data-tilt>
-                <div class="comp-title"><span class="brand-logo"><span class="brand-by">by</span><span class="brand-name">AL<div class="burger-in-text"><div class="burger-line"></div><div class="burger-line"></div><div class="burger-line"></div></div>X</span></span><br><span style="font-size:0.7em; opacity:0.6; text-transform:none; letter-spacing:0;">(Чистый код)</span></div>
+                <div class="comp-title">
+                    <div class="comp-logo-wrapper">
+                        <span class="brand-by">by</span>
+                        <span class="brand-name">AL<div class="burger-in-text"><div class="burger-line"></div><div class="burger-line"></div><div class="burger-line"></div></div>X</span>
+                    </div>
+                    <span>(Чистый код)</span>
+                </div>
                 <ul class="comp-list">
                     <li><span class="good">✓</span> <div><span class="price-highlight scramble-num">15 000 ₽</span>Один раз. Навсегда.</div></li>
                     <li><span class="good">✓</span> 0 ₽ обслуживание</li>
@@ -576,30 +614,66 @@
         <h2 class="hover-matrix glitch-target" data-value="Тарифы">Тарифы</h2>
         <div class="pricing-grid">
             <div class="price-card glass-panel glitch-target" data-tilt>
-                <div class="price-name">START</div>
+                <div class="price-name">LITE</div>
                 <div class="price-amount scramble-num">15 000 ₽</div>
-                <p>Сайт под ключ. <br>До 15 проектов.</p>
+                <ul class="price-list">
+                    <li>Сайт-визитка или портфолио</li>
+                    <li>До 5 смысловых блоков</li>
+                    <li>Минимум спецэффектов</li>
+                    <li>Полная мобильная адаптация</li>
+                    <li>Favicon (иконка браузера)</li>
+                    <li>Open Graph (красивые ссылки в соцсетях)</li>
+                </ul>
             </div>
+
             <div class="price-card glass-panel glitch-target" style="border-color: rgba(255,255,255,0.2);" data-tilt>
-                <div class="price-name" style="color: white;">PRO + SEO</div>
-                <div class="price-amount scramble-num">20 000 ₽</div>
-                <p>Оптимизация для поиска + Аналитика.</p>
+                <div class="price-name" style="color: white;">BUSINESS</div>
+                <div class="price-amount scramble-num">25 000 ₽</div>
+                <ul class="price-list">
+                    <li><strong>Всё, что в LITE</strong></li>
+                    <li>Уникальный дизайн</li>
+                    <li>Сложные анимации (3D Tilt)</li>
+                    <li>Spotlight (Умная рамка)</li>
+                    <li>Скрамблинг текста</li>
+                    <li>Интерактивные элементы</li>
+                </ul>
             </div>
+
             <div class="price-card glass-panel glitch-target" data-tilt>
-                <div class="price-name">Разовая правка</div>
+                <div class="price-name">MULTIPAGE</div>
+                <div class="price-amount scramble-num">40 000 ₽</div>
+                <ul class="price-list">
+                    <li><strong>Всё, что в BUSINESS</strong></li>
+                    <li>Двухстраничная структура</li>
+                    <li>Дизайн и структура второй страницы</li>
+                    <li>Отдельная страница кейса/проекта</li>
+                </ul>
+            </div>
+
+            <div class="price-card glass-panel glitch-target" data-tilt>
+                <div class="price-name" style="color: var(--accent);">SEO ADD-ON</div>
+                <div class="price-amount scramble-num">+ 5 000 ₽</div>
+                <ul class="price-list">
+                    <li>Подбор ключевых слов (Yandex/Google)</li>
+                    <li>Правильное описание картинок (Alt)</li>
+                    <li>Регистрация сайта в поисковиках</li>
+                    <li>Подключение Яндекс.Метрики</li>
+                </ul>
+            </div>
+
+            <div class="price-card glass-panel glitch-target" data-tilt>
+                <div class="price-name">ПОДДЕРЖКА</div>
                 <div class="price-amount scramble-num">2 000 ₽</div>
-                <p>Добавление 1 нового проекта.</p>
-            </div>
-            <div class="price-card glass-panel glitch-target" data-tilt>
-                <div class="price-name">Ведение (Месяц)</div>
-                <div class="price-amount scramble-num">6 000 ₽</div>
-                <p>Обновление портфолио раз в неделю.</p>
+                <ul class="price-list">
+                    <li>Разовое обновление контента</li>
+                    <li>Добавление нового блока</li>
+                </ul>
             </div>
         </div>
     </section>
 
     <footer id="contact" class="fade-in-section">
-        <div class="footer-cta hover-matrix" data-value="Готовы упаковать свои работы?">Готовы упаковать свои работы?</div>
+        <div class="footer-cta hover-matrix" data-value="Готовы выделиться среди конкурентов?">Готовы выделиться среди конкурентов?</div>
         <div class="footer-links-primary">
             <a href="https://t.me/GavAlexandr" target="_blank" class="big-contact glitch-target">TELEGRAM ↗</a>
             <a href="https://max.ru/u/f9LHodD0cOINNX4XitygJIdHULaRM3fOY_Z-Zq7cl2il4RqZBcMWAQJhqwE" target="_blank" class="big-contact glitch-target">MAX ↗</a>
@@ -610,7 +684,6 @@
         </div>
         <div class="footer-bottom">
             <div>© 2025 by AL☰X<br>Все права защищены.</div>
-            <div>Проект студии: <a href="https://3dcross.ru" target="_blank">3D\CROSS</a></div>
         </div>
     </footer>
 
@@ -785,7 +858,7 @@
         }, observerOptions);
         document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
 
-        // ТАЙМИНГ ИЗМЕНЕН НА 12000 (12 секунд)
+        // ТАЙМИНГ 12 СЕКУНД (12000)
         setInterval(() => {
             const glitchTargets = document.querySelectorAll('.glitch-target');
             const globalPhantom = document.querySelector('.global-phantom-img');

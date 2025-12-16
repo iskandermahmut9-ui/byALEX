@@ -26,9 +26,7 @@
         }
 
         /* Глобальный сброс для точных размеров */
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { box-sizing: border-box; }
 
         html { scroll-behavior: smooth; cursor: none; }
         
@@ -210,14 +208,15 @@
             100% { transform: translate(0) skew(0deg); opacity: 1; }
         }
 
-        /* --- КНОПКИ (FIXED) --- */
+        /* --- КНОПКИ --- */
         .cta-btn, .case-btn-full {
             display: inline-block; 
             text-align: center; 
             
-            /* ФИКС ДЛЯ МОБИЛЬНЫХ: разрешаем перенос и подгоняем размеры */
+            /* ФИКС ДЛЯ МОБИЛЬНЫХ */
             white-space: normal; 
             word-wrap: break-word;
+            overflow-wrap: break-word; /* Дополнительная страховка */
             width: fit-content; 
             max-width: 100%;
             
@@ -229,9 +228,7 @@
             transition: all 0.3s ease;
         }
         
-        .case-btn-full {
-            width: 100%; /* В карточке кнопка на всю ширину */
-        }
+        .case-btn-full { width: 100%; }
 
         .cta-btn:hover, .case-btn-full:hover,
         .cta-btn.mobile-hover, .case-btn-full.mobile-hover { 
@@ -354,7 +351,7 @@
             .global-phantom-img { width: 90vw; height: auto; }
             
             /* Фикс кнопки на мобильном */
-            .case-btn-full { padding: 14px 10px; font-size: 0.85rem; }
+            .case-btn-full { padding: 14px 20px; font-size: 0.85rem; }
         }
 
         @media (max-width: 768px) {
@@ -576,30 +573,10 @@
     </footer>
 
     <script>
-        // --- 1. PRELOADER ---
-        const terminal = document.getElementById('terminal');
-        const preloader = document.getElementById('preloader');
-        const bootLines = ["INITIALIZING CORE SYSTEMS...", "LOADING ASSETS: 100%", "CONNECTING TO SERVER...", "ESTABLISHING SECURE CONNECTION...", "ACCESS GRANTED.", "WELCOME TO by AL☰X."];
-        let lineIndex = 0;
-        function addLine() {
-            if (lineIndex < bootLines.length) {
-                const line = document.createElement('span');
-                line.className = 'terminal-line';
-                if (lineIndex === bootLines.length - 1) line.classList.add('accent');
-                line.textContent = `> ${bootLines[lineIndex]}`;
-                terminal.appendChild(line);
-                lineIndex++;
-                setTimeout(addLine, 50 + Math.random() * 100); 
-            } else {
-                setTimeout(() => { preloader.classList.add('loaded'); document.body.classList.remove('loading'); }, 400); 
-            }
-        }
-        window.addEventListener('load', () => setTimeout(addLine, 200));
-
-        // --- 2. COMMON CONSTANTS ---
+        // --- 1. GLOBAL SETTINGS ---
         const textLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+AL☰X";
 
-        // --- 3. MATRIX EFFECT FUNCTIONS (Reusable) ---
+        // --- 2. MATRIX ANIMATION FUNCTIONS ---
         function startMatrixEffect(element) {
             const originalText = element.dataset.value; 
             let iteration = 0;
@@ -622,6 +599,26 @@
             clearInterval(element.interval);
             element.innerHTML = element.dataset.originalHtml;
         }
+
+        // --- 3. PRELOADER ---
+        const terminal = document.getElementById('terminal');
+        const preloader = document.getElementById('preloader');
+        const bootLines = ["INITIALIZING CORE SYSTEMS...", "LOADING ASSETS: 100%", "CONNECTING TO SERVER...", "ESTABLISHING SECURE CONNECTION...", "ACCESS GRANTED.", "WELCOME TO by AL☰X."];
+        let lineIndex = 0;
+        function addLine() {
+            if (lineIndex < bootLines.length) {
+                const line = document.createElement('span');
+                line.className = 'terminal-line';
+                if (lineIndex === bootLines.length - 1) line.classList.add('accent');
+                line.textContent = `> ${bootLines[lineIndex]}`;
+                terminal.appendChild(line);
+                lineIndex++;
+                setTimeout(addLine, 50 + Math.random() * 100); 
+            } else {
+                setTimeout(() => { preloader.classList.add('loaded'); document.body.classList.remove('loading'); }, 400); 
+            }
+        }
+        window.addEventListener('load', () => setTimeout(addLine, 200));
 
         // --- 4. LOGIC (HOVER/MOBILE) ---
         const gridGlow = document.getElementById('gridGlow');
@@ -654,19 +651,19 @@
                 });
             });
 
-            // Hover state tracking
-            const hoverEls = document.querySelectorAll('a, button, .cta-btn, .case-card, .price-card, .hover-matrix, .comp-item, .case-btn-full');
-            hoverEls.forEach(el => {
-                el.addEventListener('mouseenter', () => body.classList.add('hovering'));
-                el.addEventListener('mouseleave', () => body.classList.remove('hovering'));
-            });
-
             // Desktop Matrix Trigger
             const matrixElements = document.querySelectorAll('.hover-matrix');
             matrixElements.forEach(element => {
                 element.dataset.originalHtml = element.innerHTML;
                 element.addEventListener('mouseenter', () => startMatrixEffect(element));
                 element.addEventListener('mouseleave', () => stopMatrixEffect(element));
+            });
+            
+            // Desktop Hover State
+            const hoverEls = document.querySelectorAll('a, button, .cta-btn, .case-card, .price-card, .hover-matrix, .comp-item, .case-btn-full');
+            hoverEls.forEach(el => {
+                el.addEventListener('mouseenter', () => body.classList.add('hovering'));
+                el.addEventListener('mouseleave', () => body.classList.remove('hovering'));
             });
         } 
         

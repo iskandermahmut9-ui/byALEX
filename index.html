@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web-разработка для Креаторов и Бизнеса | Сайты на чистом коде by AL☰X</title>
     
-    <meta name="description" content="Разработка имиджевых сайтов и портфолио. Pure HTML/CSS. Без конструкторов и абонентской платы. Высокая скорость, уникальный дизайн, вечный доступ.">
-    <meta name="keywords" content="разработка сайта, сайт на чистом коде, веб-разработчик, создание портфолио, имиджевый сайт, html верстка, сайт без тильды, заказать сайт, сайт для бренда">
+    <meta name="description" content="Разработка имиджевых сайтов и портфолио. Pure HTML/CSS. Без конструкторов и абонентской платы.">
     <meta property="og:title" content="by AL☰X | Ваш бизнес. Без шаблонов.">
-    <meta property="og:description" content="Премиальная веб-разработка. Платите один раз — сайт ваш навсегда.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +19,6 @@
             --text-main: #ededed;
             --text-muted: #999;
             --accent: #ff3b6f; 
-            
             --radius-card: 20px; 
             --radius-btn: 12px;
             --grid-size: 30px; 
@@ -124,12 +121,10 @@
             backdrop-filter: blur(8px);
         }
 
-        /* --- 5. ХЕДЕР (ФИКСИРОВАННАЯ СТРУКТУРА) --- */
+        /* --- 5. ХЕДЕР --- */
         header {
             padding: 15px 40px; 
-            display: flex; 
-            justify-content: space-between; /* Лого слева, Кнопка справа */
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             position: sticky; top: 0; 
             background-color: rgba(14, 14, 14, 0.6); 
@@ -137,30 +132,18 @@
             z-index: 100;
         }
 
-        /* Логотип */
-        .brand-logo { 
-            display: flex; align-items: baseline; gap: 10px; 
-            transition: transform 0.3s ease;
-            text-decoration: none;
-        }
+        .brand-logo { display: flex; align-items: baseline; gap: 10px; transition: transform 0.3s ease; text-decoration: none;}
         .brand-logo:hover { transform: scale(1.05); }
         .brand-logo:hover .brand-name { color: var(--accent); }
-
         .brand-by { font-family: 'Pinyon Script', cursive; font-size: 1.8rem; color: var(--text-muted); text-transform: lowercase; }
         .brand-name { font-weight: 800; font-size: 2.2rem; letter-spacing: 2px; color: white; display: flex; align-items: center; }
-        
-        /* Бургер внутри буквы E */
         .burger-in-text { display: inline-flex; flex-direction: column; justify-content: space-between; width: 0.7em; height: 0.75em; margin: 0 2px; }
         .burger-line { width: 100%; height: 22%; background-color: white; border-radius: 1px; }
 
-        /* МЕНЮ ПО ЦЕНТРУ */
         .nav-menu { 
             display: flex; gap: 40px; 
-            position: absolute; 
-            left: 50%; 
-            transform: translateX(-50%); 
+            position: absolute; left: 50%; transform: translateX(-50%); 
         }
-        
         .nav-link {
             font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; 
             color: var(--text-muted); font-weight: 800; position: relative;
@@ -231,14 +214,9 @@
             width: fit-content; max-width: 100%;
             padding: 12px 25px; font-size: 0.85rem; text-transform: uppercase; font-weight: 700; letter-spacing: 1.5px;
             color: #fff; border-radius: var(--radius-btn);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        
-        /* Кнопка в кейсах (на всю ширину левой колонки) + ОТСТУП */
-        .case-btn-full { 
-            width: 100%; 
-            margin-top: 20px; /* Отступ сверху от цены */
-        }
+        .case-btn-full { width: 100%; margin-top: 20px; }
         
         .cta-btn:hover, .case-btn-full:hover, .cta-btn.mobile-hover, .case-btn-full.mobile-hover { 
             background-color: rgba(255, 59, 111, 0.2); color: white; transform: translateY(-3px);
@@ -266,12 +244,10 @@
 
         /* --- СЕКЦИИ --- */
         section { padding: 100px 40px; border-bottom: 1px solid rgba(255,255,255,0.05); z-index: 5; position: relative;}
-        
         .hero { padding-top: 140px; padding-bottom: 140px; background: transparent; position: relative; display: flex; flex-direction: column; }
         .hero-subtitle { display: block; width: 100%; color: var(--accent); font-size: 1.3rem; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 25px; font-weight: 600; }
         .hero-text-block span { display: block; font-size: 1.4rem; margin-bottom: 10px; color: #ccc; }
 
-        /* === ФАНТОМНАЯ КАРТИНКА === */
         .global-phantom-img {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 80vw; height: 80vh; object-fit: contain; opacity: 0; pointer-events: none; z-index: -2;
@@ -309,26 +285,21 @@
         .story-list li { font-size: 0.9rem; color: #ccc; padding-left: 12px; margin-bottom: 3px; position: relative; list-style: none;}
         .story-list li::before { content: "•"; position: absolute; left: 0; color: var(--accent); top: 0px;}
         
-        /* --- АНАЛИЗ (ГАЛОЧКИ И КРЕСТИКИ) --- */
         .comparison-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; border: none; }
         .comp-item { padding: 30px; display: flex; flex-direction: column; border-radius: var(--radius-card); }
         .comp-item.winner { border-color: rgba(255, 59, 111, 0.5); background-color: rgba(30, 30, 30, 0.8); }
         .comp-title { font-size: 1.2rem; margin-bottom: 20px; color: white; text-transform: uppercase; letter-spacing: 1px; min-height: 40px; font-family: 'JetBrains Mono';}
         .comp-title span { font-size: 0.7em; opacity: 0.6; display: block; margin-top: 5px; text-transform: none; letter-spacing: 0; font-family: 'Manrope';}
-        
         .comp-logo-wrapper { display: flex; align-items: baseline; gap: 10px; margin-bottom: 5px; }
         .comp-logo-wrapper .brand-by { font-family: 'Pinyon Script', cursive; font-size: 1.5rem; color: var(--text-muted); text-transform: lowercase; }
         .comp-logo-wrapper .brand-name { font-weight: 800; font-size: 1.8rem; letter-spacing: 2px; color: white; display: flex; align-items: center; }
-
         .comp-list { padding: 0; margin: 0; list-style: none;}
         .comp-list li { margin-bottom: 15px; font-size: 0.9rem; color: var(--text-muted); gap: 10px; display: flex; align-items: flex-start;}
-        
         .price-highlight { display: block; font-size: 1.3rem; color: var(--accent); font-weight: 700; margin-bottom: 4px; font-family: 'JetBrains Mono';}
         .good { color: var(--accent); font-weight: bold; min-width: 20px; font-size: 1.2rem;}
         .bad { color: #ff4d4d; font-weight: bold; min-width: 20px; font-size: 1.2rem;}
         .neutral { color: #aaa; font-weight: bold; min-width: 20px; font-size: 1.2rem;}
 
-        /* --- ТАРИФЫ --- */
         .pricing-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-top: 60px; border: none; }
         .price-card { padding: 30px 20px; border-radius: var(--radius-card); display: flex; flex-direction: column; min-height: 450px; justify-content: space-between; }
         .price-amount { font-size: 2.5rem; color: var(--accent); font-weight: 700; margin: 10px 0 20px 0; font-family: 'JetBrains Mono'; white-space: nowrap; }
@@ -337,7 +308,65 @@
         .price-list li { font-size: 0.85rem; color: #ccc; margin-bottom: 10px; position: relative; padding-left: 15px; line-height: 1.3; }
         .price-list li::before { content: "›"; position: absolute; left: 0; color: var(--accent); font-weight: bold; top: -1px; }
 
-        /* Footer */
+        /* --- КАЛЬКУЛЯТОР --- */
+        #calculator { padding-top: 60px; padding-bottom: 100px; }
+        .calc-wrapper {
+            background-color: rgba(20, 20, 20, 0.7); 
+            backdrop-filter: blur(60px); -webkit-backdrop-filter: blur(60px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-card);
+            padding: 40px;
+            display: grid; grid-template-columns: 2fr 1fr; gap: 40px;
+        }
+        .calc-left h3 { font-size: 1.5rem; margin-top: 0; margin-bottom: 25px; color: white; font-family: 'JetBrains Mono'; text-transform: uppercase; }
+        .calc-group { margin-bottom: 30px; }
+        .calc-label { display: block; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        
+        .calc-options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; }
+        
+        /* КНОПКИ КАЛЬКУЛЯТОРА */
+        .calc-option {
+            padding: 20px; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+            cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+            background: rgba(255,255,255,0.02);
+            text-align: center; font-weight: 600; color: #ccc;
+            position: relative; overflow: hidden;
+        }
+        .calc-option:hover, .calc-option.mobile-hover { 
+            background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.3); 
+            transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .calc-option:active { transform: translateY(2px); box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        .calc-option::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(150px circle at var(--card-x, 50%) var(--card-y, 50%), rgba(255, 59, 111, 0.3), transparent 100%);
+            opacity: 0; transition: opacity 0.3s; pointer-events: none;
+        }
+        .calc-option:hover::before, .calc-option.mobile-hover::before { opacity: 1; }
+        
+        .calc-option.selected { 
+            border-color: var(--accent); color: white; 
+            background: rgba(255, 59, 111, 0.1);
+            box-shadow: 0 0 15px rgba(255, 59, 111, 0.2);
+            transform: translateY(0);
+        }
+        .calc-option.disabled { opacity: 0.4; pointer-events: none; filter: grayscale(100%); }
+
+        .calc-option-name { display: block; font-size: 1rem; margin-bottom: 5px; }
+        .calc-option-price { font-size: 0.8rem; opacity: 0.7; font-family: 'JetBrains Mono'; }
+
+        .calc-right {
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            border-left: 1px solid rgba(255,255,255,0.1); padding-left: 40px;
+        }
+        .total-label { font-size: 1rem; color: #777; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        .total-price { 
+            font-size: 3.5rem; color: var(--accent); font-weight: 800; 
+            font-family: 'JetBrains Mono'; text-shadow: 0 0 20px rgba(255, 59, 111, 0.4);
+            margin-bottom: 20px;
+        }
+        
         footer { padding: 80px 40px 40px 40px; border-top: 1px solid rgba(255,255,255,0.05); background: transparent; }
         .footer-cta { font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 40px; }
         .footer-links-primary { display: flex; flex-direction: column; gap: 20px; margin-bottom: 60px; }
@@ -351,41 +380,26 @@
         .footer-bottom a { border-bottom: 1px solid #333; }
         .footer-bottom a:hover { border-color: #fff; color: #fff; }
 
-        /* ========================================= */
-        /* === MEDIA QUERIES (АДАПТИВНОСТЬ) === */
-        /* ========================================= */
         @media (max-width: 1200px) {
             .pricing-grid { grid-template-columns: repeat(2, 1fr); }
             .price-card { min-height: auto; }
         }
 
         @media (max-width: 900px) {
-            header {
-                display: grid;
-                grid-template-columns: 1fr auto; 
-                grid-template-rows: auto auto; 
-                gap: 15px; padding: 15px 20px;
-            }
+            header { display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto; gap: 15px; padding: 15px 20px; }
             .brand-logo { grid-column: 1; justify-self: start; }
             .brand-name { font-size: 1.6rem; }
-            
-            header .cta-btn { 
-                grid-column: 2; justify-self: end; margin: 0; padding: 10px 15px; font-size: 0.8rem;
-            }
-            
-            .nav-menu {
-                grid-column: 1 / -1; grid-row: 2; position: static; transform: none;
-                display: flex; justify-content: space-between; margin: 0; gap: 5px;
-                border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;
-            }
+            header .cta-btn { grid-column: 2; justify-self: end; margin: 0; padding: 10px 15px; font-size: 0.8rem; }
+            .nav-menu { grid-column: 1 / -1; grid-row: 2; position: static; transform: none; display: flex; justify-content: space-between; margin: 0; gap: 5px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; }
             .nav-link { font-size: 0.85rem; letter-spacing: 0.5px; }
-
             .cases-grid-container { grid-template-columns: 1fr; gap: 30px; }
             .case-card { grid-template-columns: 1fr; }
             .case-left-col { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); }
             .comparison-grid { grid-template-columns: 1fr; }
             .global-phantom-img { width: 90vw; height: auto; }
             .case-btn-full { padding: 14px 20px; font-size: 0.85rem; }
+            .calc-wrapper { grid-template-columns: 1fr; gap: 30px; padding: 25px; }
+            .calc-right { border-left: none; border-top: 1px solid rgba(255,255,255,0.1); padding-left: 0; padding-top: 30px; }
         }
 
         @media (max-width: 768px) {
@@ -418,13 +432,12 @@
             <span class="brand-by">by</span>
             <span class="brand-name">AL<div class="burger-in-text"><div class="burger-line"></div><div class="burger-line"></div><div class="burger-line"></div></div>X</span>
         </a>
-        
         <nav class="nav-menu">
             <a href="#cases" class="nav-link">Кейсы</a>
             <a href="#comparison" class="nav-link">Анализ</a>
             <a href="#pricing" class="nav-link">Тарифы</a>
+            <a href="#calculator" class="nav-link">Конфигуратор</a>
         </nav>
-
         <a href="#contact" class="cta-btn glass-panel">Написать мне</a>
     </header>
 
@@ -433,7 +446,6 @@
         <h1 class="hover-matrix glitch-target" data-value="ВАШ БИЗНЕС.
 БЕЗ ШАБЛОНОВ.
 НАВСЕГДА.">ВАШ БИЗНЕС.<br>БЕЗ ШАБЛОНОВ.<br>НАВСЕГДА.</h1>
-        
         <p class="hero-text-block">
             <span>Разрабатываю уникальные сайты на <strong>Pure HTML/CSS</strong> для тех, кто перерос конструкторы.</span>
             <span>Креаторы, Стартапы, Визуализаторы и Бренды.</span>
@@ -581,7 +593,6 @@
                     <li><span class="good">✓</span> Делается быстро</li>
                 </ul>
             </div>
-            
             <div class="comp-item glass-panel glitch-target" data-tilt>
                 <div class="comp-title">Веб-студии<br><span>(Агентства)</span></div>
                 <ul class="comp-list">
@@ -591,7 +602,6 @@
                     <li><span class="neutral">!</span> Сложная коммуникация</li>
                 </ul>
             </div>
-
             <div class="comp-item winner glass-panel glitch-target" data-tilt>
                 <div class="comp-title">
                     <div class="comp-logo-wrapper">
@@ -614,7 +624,7 @@
         <h2 class="hover-matrix glitch-target" data-value="Тарифы">Тарифы</h2>
         <div class="pricing-grid">
             <div class="price-card glass-panel glitch-target" data-tilt>
-                <div class="price-name">LITE</div>
+                <div class="price-name">BASE</div>
                 <div class="price-amount scramble-num">15 000 ₽</div>
                 <ul class="price-list">
                     <li>Сайт-визитка или портфолио</li>
@@ -625,12 +635,11 @@
                     <li>Open Graph (красивые ссылки в соцсетях)</li>
                 </ul>
             </div>
-
             <div class="price-card glass-panel glitch-target" style="border-color: rgba(255,255,255,0.2);" data-tilt>
-                <div class="price-name" style="color: white;">BUSINESS</div>
+                <div class="price-name" style="color: white;">DIGITAL ART</div>
                 <div class="price-amount scramble-num">25 000 ₽</div>
                 <ul class="price-list">
-                    <li><strong>Всё, что в LITE</strong></li>
+                    <li><strong>Всё, что в BASE</strong></li>
                     <li>Уникальный дизайн</li>
                     <li>Сложные анимации (3D Tilt)</li>
                     <li>Spotlight (Умная рамка)</li>
@@ -638,18 +647,16 @@
                     <li>Интерактивные элементы</li>
                 </ul>
             </div>
-
             <div class="price-card glass-panel glitch-target" data-tilt>
                 <div class="price-name">MULTIPAGE</div>
                 <div class="price-amount scramble-num">40 000 ₽</div>
                 <ul class="price-list">
-                    <li><strong>Всё, что в BUSINESS</strong></li>
+                    <li><strong>Всё, что в DIGITAL ART</strong></li>
                     <li>Двухстраничная структура</li>
                     <li>Дизайн и структура второй страницы</li>
                     <li>Отдельная страница кейса/проекта</li>
                 </ul>
             </div>
-
             <div class="price-card glass-panel glitch-target" data-tilt>
                 <div class="price-name" style="color: var(--accent);">SEO ADD-ON</div>
                 <div class="price-amount scramble-num">+ 5 000 ₽</div>
@@ -660,7 +667,6 @@
                     <li>Подключение Яндекс.Метрики</li>
                 </ul>
             </div>
-
             <div class="price-card glass-panel glitch-target" data-tilt>
                 <div class="price-name">ПОДДЕРЖКА</div>
                 <div class="price-amount scramble-num">2 000 ₽</div>
@@ -668,6 +674,75 @@
                     <li>Разовое обновление контента</li>
                     <li>Добавление нового блока</li>
                 </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="calculator" class="fade-in-section">
+        <h2 class="hover-matrix glitch-target" data-value="КОНФИГУРАТОР">КОНФИГУРАТОР</h2>
+        <div class="calc-wrapper">
+            <div class="calc-left">
+                <div class="calc-group">
+                    <span class="calc-label">ВЫБЕРИТЕ ЯДРО СИСТЕМЫ</span>
+                    <div class="calc-options-grid" id="base-options">
+                        <div class="calc-option selected" data-price="15000">
+                            <span class="calc-option-name">BASE</span>
+                            <span class="calc-option-price">15 000 ₽</span>
+                        </div>
+                        <div class="calc-option" data-price="25000">
+                            <span class="calc-option-name">DIGITAL ART</span>
+                            <span class="calc-option-price">25 000 ₽</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calc-group">
+                    <span class="calc-label">ПОДКЛЮЧИТЬ МОДУЛИ</span>
+                    <div class="calc-options-grid">
+                        <div class="calc-option addon" data-price="5000">
+                            <span class="calc-option-name">SEO PACK</span>
+                            <span class="calc-option-price">+ 5 000 ₽</span>
+                        </div>
+                        <div class="calc-option addon" data-price="6000">
+                            <span class="calc-option-name">ПОДДЕРЖКА</span>
+                            <span class="calc-option-price" style="font-size: 0.7rem; display: block; margin-top: 2px;">(месяц / до 4 загрузок)</span>
+                            <span class="calc-option-price">+ 6 000 ₽</span>
+                        </div>
+                        <div class="calc-option addon" data-price="5000">
+                            <span class="calc-option-name">КОНФИГУРАТОР</span>
+                            <span class="calc-option-price" style="font-size: 0.7rem; display: block; margin-top: 2px;">(доп. модуль)</span>
+                            <span class="calc-option-price">+ 5 000 ₽</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calc-group">
+                    <span class="calc-label">ДОПОЛНИТЕЛЬНЫЕ СТРАНИЦЫ</span>
+                    <div class="calc-options-grid">
+                        <div class="calc-option seq-page" data-price="15000" data-page-index="0">
+                            <span class="calc-option-name">2-я страница</span>
+                            <span class="calc-option-price">+ 15 000 ₽</span>
+                        </div>
+                        <div class="calc-option seq-page disabled" data-price="10000" data-page-index="1">
+                            <span class="calc-option-name">3-я страница</span>
+                            <span class="calc-option-price">+ 10 000 ₽</span>
+                        </div>
+                        <div class="calc-option seq-page disabled" data-price="10000" data-page-index="2">
+                            <span class="calc-option-name">4-я страница</span>
+                            <span class="calc-option-price">+ 10 000 ₽</span>
+                        </div>
+                        <div class="calc-option seq-page disabled" data-price="5000" data-page-index="3">
+                            <span class="calc-option-name">5-я страница</span>
+                            <span class="calc-option-price">+ 5 000 ₽</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calc-right">
+                <span class="total-label">Итоговая оценка</span>
+                <span class="total-price scramble-num" id="total-price-display">15 000 ₽</span>
+                <a href="#contact" class="cta-btn glass-panel" style="width: 100%;">Заказать конфигурацию</a>
             </div>
         </div>
     </section>
@@ -684,6 +759,7 @@
         </div>
         <div class="footer-bottom">
             <div>© 2025 by AL☰X<br>Все права защищены.</div>
+            <div>Проект студии: <a href="https://3dcross.ru" target="_blank">3D\CROSS</a></div>
         </div>
     </footer>
 
@@ -775,7 +851,7 @@
             });
             
             // Desktop Hover State
-            const hoverEls = document.querySelectorAll('a, button, .cta-btn, .case-card, .price-card, .hover-matrix, .comp-item, .case-btn-full');
+            const hoverEls = document.querySelectorAll('a, button, .cta-btn, .case-card, .price-card, .hover-matrix, .comp-item, .case-btn-full, .calc-option');
             hoverEls.forEach(el => {
                 el.addEventListener('mouseenter', () => body.classList.add('hovering'));
                 el.addEventListener('mouseleave', () => body.classList.remove('hovering'));
@@ -788,7 +864,7 @@
             const matrixElements = document.querySelectorAll('.hover-matrix');
             matrixElements.forEach(el => { el.dataset.originalHtml = el.innerHTML; });
 
-            const interactiveElements = document.querySelectorAll('.glass-panel, .cta-btn, .case-btn-full, .hover-matrix');
+            const interactiveElements = document.querySelectorAll('.glass-panel, .cta-btn, .case-btn-full, .hover-matrix, .calc-option');
             
             function handleMobileScroll() {
                 const centerLine = window.innerHeight / 2;
@@ -871,6 +947,82 @@
                 }, delay);
             });
         }, 12000);
+
+        // --- 6. CALCULATOR LOGIC (SEQUENTIAL PAGES) ---
+        const baseOptions = document.querySelectorAll('#base-options .calc-option');
+        const addons = document.querySelectorAll('.calc-option.addon');
+        const pageButtons = document.querySelectorAll('.calc-option.seq-page'); // Кнопки страниц
+        const priceDisplay = document.getElementById('total-price-display');
+        
+        let basePrice = 15000;
+        let addonsPrice = 0;
+        let pagesPrice = 0;
+
+        function updatePrice() {
+            const total = basePrice + addonsPrice + pagesPrice;
+            const currentText = priceDisplay.innerText.replace(/[^0-9]/g, '');
+            priceDisplay.innerText = total.toLocaleString('ru-RU') + ' ₽';
+            runNumScramble(priceDisplay);
+        }
+
+        // Ядро (Радио)
+        baseOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                baseOptions.forEach(o => o.classList.remove('selected'));
+                option.classList.add('selected');
+                basePrice = parseInt(option.dataset.price);
+                updatePrice();
+            });
+        });
+
+        // Модули (Чекбоксы)
+        addons.forEach(addon => {
+            addon.addEventListener('click', () => {
+                addon.classList.toggle('selected');
+                if (addon.classList.contains('selected')) {
+                    addonsPrice += parseInt(addon.dataset.price);
+                } else {
+                    addonsPrice -= parseInt(addon.dataset.price);
+                }
+                updatePrice();
+            });
+        });
+
+        // СТРАНИЦЫ (ПОСЛЕДОВАТЕЛЬНАЯ ЛОГИКА)
+        pageButtons.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                // Если кнопка уже выбрана -> отключаем её и ВСЕ последующие
+                if (btn.classList.contains('selected')) {
+                    for (let i = index; i < pageButtons.length; i++) {
+                        if (pageButtons[i].classList.contains('selected')) {
+                            pageButtons[i].classList.remove('selected');
+                            pagesPrice -= parseInt(pageButtons[i].dataset.price);
+                        }
+                        // Блокируем следующие
+                        if (i > index) {
+                             pageButtons[i].classList.add('disabled');
+                        }
+                    }
+                    // Если это не последняя кнопка, блокируем следующую
+                    if (index < pageButtons.length - 1) {
+                        pageButtons[index + 1].classList.add('disabled');
+                    }
+
+                } else {
+                    // Если кнопка НЕ выбрана -> включаем её (только если не заблокирована)
+                    if (!btn.classList.contains('disabled')) {
+                        btn.classList.add('selected');
+                        pagesPrice += parseInt(btn.dataset.price);
+                        
+                        // Разблокируем следующую кнопку
+                        if (index < pageButtons.length - 1) {
+                            pageButtons[index + 1].classList.remove('disabled');
+                        }
+                    }
+                }
+                updatePrice();
+            });
+        });
 
     </script>
 </body>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Host: https://by-alex.ru
+Sitemap: https://by-alex.ru/sitemap.xml

@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Digital Solutions by Alex | Веб-разработка и IT-решения</title>
-    <meta name="description" content="Разработка имиджевых сайтов и цифровых продуктов. Pure HTML/CSS. Без конструкторов и абонентской платы.">
+    <title>Разработка сайтов на чистом коде | Digital Solutions by Alex</title>
+    <meta name="description" content="Создаю быстрые и стильные сайты на Pure HTML/CSS/JS. Никаких конструкторов и абонентской платы. Индивидуальный дизайн, анимации и высокая скорость загрузки.">
     <meta name="author" content="Alex">
-    <meta name="keywords" content="web development, верстка, by-alex, сайты на заказ, цифровые решения">
+    <meta name="keywords" content="разработка сайтов, html css верстка, сайт на заказ, веб-разработчик, by-alex, сайт визитка, чистый код, frontend, портфолио">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://by-alex.ru/">
@@ -23,7 +23,7 @@
     <meta name="twitter:description" content="Сайты на чистом коде.">
     <meta name="twitter:image" content="https://by-alex.ru/og-image.jpg">
 
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -270,6 +270,7 @@
         .hero-subtitle { display: block; width: 100%; color: var(--accent); font-size: 1.3rem; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 25px; font-weight: 600; }
         .hero-text-block span { display: block; font-size: 1.4rem; margin-bottom: 10px; color: #ccc; }
 
+        /* Фоновая картинка (Добавлен Alt) */
         .global-phantom-img {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 80vw; height: 80vh; object-fit: contain; opacity: 0; pointer-events: none; z-index: -2;
@@ -444,7 +445,7 @@
         <div class="grid-glow" id="gridGlow"></div>
     </div>
 
-    <img src="glitch-art.png" class="global-phantom-img" alt="Digital Glitch Decoration">
+    <img src="glitch-art.png" class="global-phantom-img" alt="Абстрактный цифровой фон в стиле киберпанк">
     
     <div class="cursor-dot" data-cursor-dot></div>
     <div class="cursor-outline" data-cursor-outline></div>
@@ -464,7 +465,7 @@
     </header>
 
     <section class="hero fade-in-section">
-        <div class="hero-subtitle">High-Performance Web Development</div>
+        <div class="hero-subtitle">Digital Solutions by Alex</div>
         <h1 class="hover-matrix glitch-target" data-value="ВАШ БИЗНЕС.
 БЕЗ ШАБЛОНОВ.
 НАВСЕГДА.">ВАШ БИЗНЕС.<br>БЕЗ ШАБЛОНОВ.<br>НАВСЕГДА.</h1>
@@ -485,7 +486,7 @@
                     <div class="case-visual-wrapper">
                         <div class="browser-window">
                             <div class="browser-header"><div class="browser-dot dot-red"></div><div class="browser-dot dot-yellow"></div><div class="browser-dot dot-green"></div></div>
-                            <div class="case-image" style="background-image: url('case-3dcross.jpg');"></div>
+                            <div class="case-image" style="background-image: url('case-3dcross.jpg');" title="3D Visualization Studio Website"></div>
                         </div>
                     </div>
                     <div class="case-meta">
@@ -516,7 +517,7 @@
                     <div class="case-visual-wrapper">
                         <div class="browser-window">
                             <div class="browser-header"><div class="browser-dot dot-red"></div><div class="browser-dot dot-yellow"></div><div class="browser-dot dot-green"></div></div>
-                            <div class="case-image" style="background-image: url('case-dg.jpg');"></div>
+                            <div class="case-image" style="background-image: url('case-dg.jpg');" title="SMM Portfolio Website"></div>
                         </div>
                     </div>
                     <div class="case-meta">
@@ -529,7 +530,7 @@
                 </div>
                 <div class="case-right-col">
                     <div class="case-tag">SMM & Personal Brand</div>
-                    <img src="logo.png" alt="SMM Manager Logo" class="case-title-logo" style="max-height: 45px; width: auto; object-fit: contain; align-self: flex-start; margin-bottom: 20px; display: block;">
+                    <img src="logo.png" alt="Логотип личного бренда SMM специалиста" class="case-title-logo" style="max-height: 45px; width: auto; object-fit: contain; align-self: flex-start; margin-bottom: 20px; display: block;">
                     <div class="story-block"><div class="story-label">Задача</div><p class="story-text">Разработать имиджевый сайт для начинающего SMM менеджера. Показать его портфолио и достижения. Сделана вторая страница, чтобы не перегружать информацией главную страницу.</p></div>
                     <div class="story-block">
                         <div class="story-label">Дизайн и Фишки</div>
@@ -780,8 +781,7 @@
             <a href="tel:+79150469023" class="medium-contact"><svg class="contact-icon-svg" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>+7 (915) 046-90-23</a>
         </div>
         <div class="footer-bottom">
-            <div>© 2025 by AL☰X<br>Все права защищены.</div>
-            <div>Проект студии: <a href="https://3dcross.ru" target="_blank">3D\CROSS</a></div>
+            <div><a href="#" class="copyright-link" style="text-decoration: none; color: inherit; cursor: pointer;">© 2025 by AL☰X</a><br>Все права защищены.</div>
         </div>
     </footer>
 

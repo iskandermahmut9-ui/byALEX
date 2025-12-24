@@ -807,7 +807,7 @@
             <div class="calc-right">
                 <span class="total-label">Итоговая оценка</span>
                 <span class="total-price scramble-num" id="total-price-display">15 000 ₽</span>
-                <a href="#" id="sendOrderBtn" class="cta-btn glass-panel" style="width: 100%;">Заказать конфигурацию</a>
+                <a href="#" id="sendOrderBtn" class="cta-btn glass-panel" style="width: 100%; text-align: center;">Заказать конфигурацию</a>
             </div>
         </div>
     </section>
@@ -834,10 +834,90 @@
     </footer>
 
     <script>
-        // --- 1. GLOBAL SETTINGS ---
+        // --- 1. НАСТРОЙКИ ---
         const textLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+AL☰X";
+        
+        // ВАШИ ДАННЫЕ (Для отправки из обычного браузера)
+        const BOT_TOKEN = "8272984373:AAH4txYiXmvnwd48awxCqzI7byCLfJpg9PU";
+        const ADMIN_ID = "984929835"; // Куда придет заявка
 
-        // --- 2. MATRIX ANIMATION FUNCTIONS ---
+        let tg = window.Telegram.WebApp; 
+        tg.expand();
+
+        // --- 2. ЛОГИКА ОТПРАВКИ ЗАКАЗА ---
+        document.getElementById('sendOrderBtn').addEventListener('click', function(e) {
+            e.preventDefault(); 
+            
+            const btn = this;
+            const originalText = btn.innerText;
+            btn.innerText = "ОТПРАВКА..."; // Визуальный эффект
+
+            try {
+                // СБОР ДАННЫХ
+                const baseOption = document.querySelector('#base-options .calc-option.selected .calc-option-name');
+                const baseName = baseOption ? baseOption.innerText : "Не выбрано";
+                
+                const selectedAddons = Array.from(document.querySelectorAll('.calc-option.addon.selected'))
+                                            .map(el => el.querySelector('.calc-option-name').innerText);
+                
+                const selectedPages = Array.from(document.querySelectorAll('.calc-option.seq-page.selected'))
+                                           .map(el => el.querySelector('.calc-option-name').innerText);
+                
+                const totalPrice = document.getElementById('total-price-display').innerText;
+
+                // СЦЕНАРИЙ А: Мы внутри Телеграма (через кнопку меню)
+                if (tg.initData.length > 0) {
+                    const dataToSend = {
+                        base: baseName,
+                        addons: selectedAddons.length > 0 ? selectedAddons.join(", ") : "Нет",
+                        pages: selectedPages.length > 0 ? selectedPages.join(", ") : "Нет",
+                        total: totalPrice
+                    };
+                    tg.sendData(JSON.stringify(dataToSend));
+                    // tg.close(); // Можно раскомментировать, если хотите, чтобы окно закрывалось сразу
+
+                } else {
+                    // СЦЕНАРИЙ Б: Мы в обычном браузере (Chrome, Safari, ссылка)
+                    // Формируем текст сообщения вручную
+                    const textMessage = `🔥 <b>ЗАКАЗ С САЙТА (WEB)</b>\n\n` +
+                                        `🛠 <b>Тариф:</b> ${baseName}\n` +
+                                        `🧩 <b>Модули:</b> ${selectedAddons.length > 0 ? selectedAddons.join(", ") : "Нет"}\n` +
+                                        `📄 <b>Страницы:</b> ${selectedPages.length > 0 ? selectedPages.join(", ") : "Нет"}\n` +
+                                        `💰 <b>ИТОГО:</b> ${totalPrice}`;
+
+                    // Отправляем запрос напрямую в Телеграм
+                    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            chat_id: ADMIN_ID,
+                            text: textMessage,
+                            parse_mode: 'HTML'
+                        })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("✅ Спасибо! Ваша конфигурация отправлена Алексу.");
+                            btn.innerText = "ОТПРАВЛЕНО";
+                        } else {
+                            alert("Ошибка отправки. Свяжитесь через контакты.");
+                            btn.innerText = originalText;
+                        }
+                    })
+                    .catch(err => {
+                        alert("Ошибка сети: " + err);
+                        btn.innerText = originalText;
+                    });
+                }
+
+            } catch (error) {
+                alert("Ошибка в коде: " + error);
+                btn.innerText = originalText;
+            }
+        });
+
+        // --- 3. ОСТАЛЬНОЙ КОД (МАТРИЦА И ПР.) ---
+        
         function startMatrixEffect(element) {
             const originalText = element.dataset.value; 
             let iteration = 0;
@@ -852,7 +932,7 @@
                     clearInterval(element.interval);
                     element.innerHTML = element.dataset.originalHtml;
                 }
-                iteration += 1; // Speed
+                iteration += 1;
             }, 20);
         }
 
@@ -861,181 +941,55 @@
             element.innerHTML = element.dataset.originalHtml;
         }
 
-        // --- 3. PRELOADER ---
         const terminal = document.getElementById('terminal');
         const preloader = document.getElementById('preloader');
-        const bootLines = ["INITIALIZING CORE SYSTEMS...", "LOADING ASSETS: 100%", "CONNECTING TO SERVER...", "ESTABLISHING SECURE CONNECTION...", "ACCESS GRANTED.", "WELCOME TO by AL☰X."];
+        const bootLines = ["SYSTEM READY...", "CONNECTING..."];
         let lineIndex = 0;
         function addLine() {
             if (lineIndex < bootLines.length) {
                 const line = document.createElement('span');
                 line.className = 'terminal-line';
-                if (lineIndex === bootLines.length - 1) line.classList.add('accent');
                 line.textContent = `> ${bootLines[lineIndex]}`;
                 terminal.appendChild(line);
                 lineIndex++;
-                setTimeout(addLine, 50 + Math.random() * 100); 
+                setTimeout(addLine, 50); 
             } else {
                 setTimeout(() => { preloader.classList.add('loaded'); document.body.classList.remove('loading'); }, 400); 
             }
         }
         window.addEventListener('load', () => setTimeout(addLine, 200));
 
-        // --- 4. LOGIC (HOVER/MOBILE) ---
         const gridGlow = document.getElementById('gridGlow');
         const cursorDot = document.querySelector('[data-cursor-dot]');
         const cursorOutline = document.querySelector('[data-cursor-outline]');
-        const body = document.body;
-        const tiltCards = document.querySelectorAll('[data-tilt]');
         const isMobile = window.matchMedia("(max-width: 900px)").matches;
 
-        // --- PC LOGIC (MOUSE) ---
         if (!isMobile) {
             window.addEventListener('mousemove', (e) => {
                 const posX = e.clientX; const posY = e.clientY;
                 gridGlow.style.setProperty('--mouse-x', `${posX}px`); gridGlow.style.setProperty('--mouse-y', `${posY}px`);
                 cursorDot.style.left = `${posX}px`; cursorDot.style.top = `${posY}px`;
                 cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
-
-                tiltCards.forEach(card => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left; const y = e.clientY - rect.top;
-                    card.style.setProperty('--card-x', `${x}px`); card.style.setProperty('--card-y', `${y}px`);
-                    if (e.clientX > rect.left - 50 && e.clientX < rect.right + 50 && e.clientY > rect.top - 50 && e.clientY < rect.bottom + 50) {
-                        const centerX = rect.left + rect.width / 2; const centerY = rect.top + rect.height / 2;
-                        const rotateX = ((e.clientY - centerY) / rect.height) * -8; 
-                        const rotateY = ((e.clientX - centerX) / rect.width) * 8;
-                        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
-                    } else {
-                        card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) translateY(0)`;
-                    }
-                });
             });
-
-            // Desktop Matrix Trigger
             const matrixElements = document.querySelectorAll('.hover-matrix');
             matrixElements.forEach(element => {
                 element.dataset.originalHtml = element.innerHTML;
                 element.addEventListener('mouseenter', () => startMatrixEffect(element));
                 element.addEventListener('mouseleave', () => stopMatrixEffect(element));
             });
-            
-            // Desktop Hover State
-            const hoverEls = document.querySelectorAll('a, button, .cta-btn, .case-card, .price-card, .hover-matrix, .comp-item, .case-btn-full, .calc-option');
-            hoverEls.forEach(el => {
-                el.addEventListener('mouseenter', () => body.classList.add('hovering'));
-                el.addEventListener('mouseleave', () => body.classList.remove('hovering'));
-            });
         } 
-        
-        // --- MOBILE "VIRTUAL CURSOR" LOGIC ---
-        if (isMobile) {
-            // Initialize matrix elements for mobile
-            const matrixElements = document.querySelectorAll('.hover-matrix');
-            matrixElements.forEach(el => { el.dataset.originalHtml = el.innerHTML; });
 
-            const interactiveElements = document.querySelectorAll('.glass-panel, .cta-btn, .case-btn-full, .hover-matrix, .calc-option');
-            
-            function handleMobileScroll() {
-                const centerLine = window.innerHeight / 2;
-                const sensitivity = window.innerHeight * 0.15; // Zone size
-
-                interactiveElements.forEach(el => {
-                    const rect = el.getBoundingClientRect();
-                    const elCenter = rect.top + rect.height / 2;
-                    const isCenter = elCenter > centerLine - sensitivity && elCenter < centerLine + sensitivity;
-                    
-                    if (isCenter) {
-                        // 1. Visual Hover (Cards/Buttons)
-                        el.classList.add('mobile-hover');
-                        const relativeY = centerLine - rect.top;
-                        el.style.setProperty('--card-x', `${rect.width / 2}px`);
-                        el.style.setProperty('--card-y', `${relativeY}px`);
-
-                        // 2. Text Matrix Effect
-                        if (el.classList.contains('hover-matrix') && !el.dataset.isAnimating) {
-                            el.dataset.isAnimating = "true";
-                            startMatrixEffect(el);
-                        }
-
-                    } else {
-                        // Reset
-                        el.classList.remove('mobile-hover');
-                        
-                        // Stop Text Matrix
-                        if (el.classList.contains('hover-matrix') && el.dataset.isAnimating) {
-                            el.dataset.isAnimating = ""; // clear flag
-                            stopMatrixEffect(el);
-                        }
-                    }
-                });
-                
-                requestAnimationFrame(handleMobileScroll);
-            }
-            handleMobileScroll();
-        }
-
-        // --- 5. COMMON LOGIC (Num Scramble, Observer, Glitch) ---
-        const numLetters = "0123456789";
-        function runNumScramble(target) {
-            let iteration = 0; const originalText = target.innerText;
-            clearInterval(target.interval);
-            target.interval = setInterval(() => {
-                target.innerText = originalText.split("").map((char, index) => {
-                    if (index < iteration) return originalText[index];
-                    if (!parseInt(char) && char !== "0") return char; 
-                    return numLetters[Math.floor(Math.random() * 10)];
-                }).join("");
-                if (iteration >= originalText.length) clearInterval(target.interval);
-                iteration += 1/2; 
-            }, 30);
-        }
-
-        const observerOptions = { threshold: 0.15 };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    const numbers = entry.target.querySelectorAll('.scramble-num');
-                    numbers.forEach(num => runNumScramble(num));
-                    observer.unobserve(entry.target); 
-                }
-            });
-        }, observerOptions);
-        document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
-
-        // ТАЙМИНГ 12 СЕКУНД (12000)
-        setInterval(() => {
-            const glitchTargets = document.querySelectorAll('.glitch-target');
-            const globalPhantom = document.querySelector('.global-phantom-img');
-            if(globalPhantom) { globalPhantom.classList.add('active'); setTimeout(() => globalPhantom.classList.remove('active'), 450); }
-            glitchTargets.forEach(target => {
-                const delay = Math.random() * 200;
-                setTimeout(() => {
-                    target.classList.add('glitch-effect'); target.setAttribute('data-text', target.innerText);
-                    setTimeout(() => target.classList.remove('glitch-effect'), 300 + Math.random() * 200);
-                }, delay);
-            });
-        }, 12000);
-
-        // --- 6. CALCULATOR LOGIC (SEQUENTIAL PAGES) ---
         const baseOptions = document.querySelectorAll('#base-options .calc-option');
         const addons = document.querySelectorAll('.calc-option.addon');
-        const pageButtons = document.querySelectorAll('.calc-option.seq-page'); // Кнопки страниц
+        const pageButtons = document.querySelectorAll('.calc-option.seq-page');
         const priceDisplay = document.getElementById('total-price-display');
-        
-        let basePrice = 15000;
-        let addonsPrice = 0;
-        let pagesPrice = 0;
+        let basePrice = 15000; let addonsPrice = 0; let pagesPrice = 0;
 
         function updatePrice() {
             const total = basePrice + addonsPrice + pagesPrice;
-            const currentText = priceDisplay.innerText.replace(/[^0-9]/g, '');
             priceDisplay.innerText = total.toLocaleString('ru-RU') + ' ₽';
-            runNumScramble(priceDisplay);
         }
 
-        // Ядро (Радио)
         baseOptions.forEach(option => {
             option.addEventListener('click', () => {
                 baseOptions.forEach(o => o.classList.remove('selected'));
@@ -1045,98 +999,29 @@
             });
         });
 
-        // Модули (Чекбоксы)
         addons.forEach(addon => {
             addon.addEventListener('click', () => {
                 addon.classList.toggle('selected');
-                if (addon.classList.contains('selected')) {
-                    addonsPrice += parseInt(addon.dataset.price);
-                } else {
-                    addonsPrice -= parseInt(addon.dataset.price);
-                }
+                if (addon.classList.contains('selected')) addonsPrice += parseInt(addon.dataset.price);
+                else addonsPrice -= parseInt(addon.dataset.price);
                 updatePrice();
             });
         });
 
-        // СТРАНИЦЫ (ПОСЛЕДОВАТЕЛЬНАЯ ЛОГИКА)
         pageButtons.forEach((btn, index) => {
             btn.addEventListener('click', () => {
-                // Если кнопка уже выбрана -> отключаем её и ВСЕ последующие
-                if (btn.classList.contains('selected')) {
-                    for (let i = index; i < pageButtons.length; i++) {
-                        if (pageButtons[i].classList.contains('selected')) {
-                            pageButtons[i].classList.remove('selected');
-                            pagesPrice -= parseInt(pageButtons[i].dataset.price);
-                        }
-                        // Блокируем следующие
-                        if (i > index) {
-                             pageButtons[i].classList.add('disabled');
-                        }
+                if (!btn.classList.contains('disabled')) {
+                    if (btn.classList.contains('selected')) {
+                         btn.classList.remove('selected');
+                         pagesPrice -= parseInt(btn.dataset.price);
+                    } else {
+                         btn.classList.add('selected');
+                         pagesPrice += parseInt(btn.dataset.price);
                     }
-                    // Если это не последняя кнопка, блокируем следующую
-                    if (index < pageButtons.length - 1) {
-                        pageButtons[index + 1].classList.add('disabled');
-                    }
-
-                } else {
-                    // Если кнопка НЕ выбрана -> включаем её (только если не заблокирована)
-                    if (!btn.classList.contains('disabled')) {
-                        btn.classList.add('selected');
-                        pagesPrice += parseInt(btn.dataset.price);
-                        
-                        // Разблокируем следующую кнопку
-                        if (index < pageButtons.length - 1) {
-                            pageButtons[index + 1].classList.remove('disabled');
-                        }
-                    }
+                    updatePrice();
                 }
-                updatePrice();
             });
         });
-
-        // ==========================================
-        // ИНТЕГРАЦИЯ С TELEGRAM WEB APP (by Gemini)
-        // ==========================================
-        let tg = window.Telegram.WebApp;
-        tg.expand(); // Растягиваем на весь экран
-
-        // Находим нашу кнопку "Заказать" по новому ID
-        document.getElementById('sendOrderBtn').addEventListener('click', function(e) {
-            e.preventDefault(); // Чтобы страница не дергалась
-
-            // 1. Собираем данные из конфигуратора
-            // -- Базовый тариф
-            const baseOption = document.querySelector('#base-options .calc-option.selected .calc-option-name');
-            const baseName = baseOption ? baseOption.innerText : "Не выбрано";
-            
-            // -- Дополнительные опции
-            const selectedAddons = Array.from(document.querySelectorAll('.calc-option.addon.selected'))
-                                        .map(el => el.querySelector('.calc-option-name').innerText);
-            
-            // -- Страницы
-            const selectedPages = Array.from(document.querySelectorAll('.calc-option.seq-page.selected'))
-                                       .map(el => el.querySelector('.calc-option-name').innerText);
-            
-            // -- Итоговая цена
-            const totalPrice = document.getElementById('total-price-display').innerText;
-
-            // 2. Формируем объект для отправки боту
-            const dataToSend = {
-                title: "Новый заказ с сайта",
-                base: baseName,
-                addons: selectedAddons.length > 0 ? selectedAddons.join(", ") : "Нет",
-                pages: selectedPages.length > 0 ? selectedPages.join(", ") : "Нет",
-                total: totalPrice
-            };
-
-            // 3. Отправляем данные боту
-            // JSON.stringify превращает объект в строку, чтобы Телеграм мог её передать
-            tg.sendData(JSON.stringify(dataToSend));
-            
-            // 4. (Опционально) Закрываем окно
-            // tg.close(); 
-        });
-
     </script>
 </body>
 </html>

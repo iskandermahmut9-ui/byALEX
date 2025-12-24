@@ -8,30 +8,8 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <title>Разработка сайтов на чистом коде | Digital Solutions by Alex</title>
-    <meta name="description" content="Создаю быстрые и стильные сайты на Pure HTML/CSS/JS. Никаких конструкторов и абонентской платы. Индивидуальный дизайн, анимации и высокая скорость загрузки.">
-    <meta name="author" content="Alex">
-    <meta name="keywords" content="разработка сайтов, html css верстка, сайт на заказ, веб-разработчик, by-alex, сайт визитка, чистый код, frontend, портфолио">
-
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://by-alex.ru/">
-    <meta property="og:title" content="Digital Solutions by Alex — Ваш бизнес. Без шаблонов.">
-    <meta property="og:description" content="Превращаю идеи в работающий код. Сайты, сервисы, автоматизация.">
-    <meta property="og:image" content="https://by-alex.ru/og-image.jpg">
-    <meta property="og:site_name" content="by-alex.ru">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://by-alex.ru/">
-    <meta name="twitter:title" content="Digital Solutions by Alex">
-    <meta name="twitter:description" content="Сайты на чистом коде.">
-    <meta name="twitter:image" content="https://by-alex.ru/og-image.jpg">
-
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <meta name="apple-mobile-web-app-title" content="by-alex">
-    <link rel="manifest" href="site.webmanifest">
-
+    <meta name="description" content="Создаю быстрые и стильные сайты на Pure HTML/CSS/JS.">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;700;800&family=Pinyon+Script&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
@@ -585,7 +563,7 @@
                 </div>
             </div>
             
-             <div class="case-card glass-panel glitch-target" style="opacity: 0.8;" data-tilt>
+            <div class="case-card glass-panel glitch-target" style="opacity: 0.8;" data-tilt>
                 <div class="case-left-col">
                     <div class="case-visual-wrapper">
                         <div class="browser-window" style="height: 100%; display: flex; align-items: center; justify-content: center; background: #111;">
@@ -807,6 +785,7 @@
             <div class="calc-right">
                 <span class="total-label">Итоговая оценка</span>
                 <span class="total-price scramble-num" id="total-price-display">15 000 ₽</span>
+                
                 <a href="#" id="sendOrderBtn" class="cta-btn glass-panel" style="width: 100%; text-align: center;">Заказать конфигурацию</a>
             </div>
         </div>
@@ -834,26 +813,16 @@
     </footer>
 
     <script>
-        // --- 1. НАСТРОЙКИ ---
-        const textLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+AL☰X";
-        
-        // ВАШИ ДАННЫЕ (Для отправки из обычного браузера)
-        const BOT_TOKEN = "8272984373:AAH4txYiXmvnwd48awxCqzI7byCLfJpg9PU";
-        const ADMIN_ID = "984929835"; // Куда придет заявка
-
-        let tg = window.Telegram.WebApp; 
+        // 1. ИНИЦИАЛИЗАЦИЯ ТЕЛЕГРАМА
+        let tg = window.Telegram.WebApp;
         tg.expand();
 
-        // --- 2. ЛОГИКА ОТПРАВКИ ЗАКАЗА ---
+        // 2. ОБРАБОТКА КЛИКА ПО КНОПКЕ "ЗАКАЗАТЬ"
         document.getElementById('sendOrderBtn').addEventListener('click', function(e) {
             e.preventDefault(); 
-            
-            const btn = this;
-            const originalText = btn.innerText;
-            btn.innerText = "ОТПРАВКА..."; // Визуальный эффект
 
             try {
-                // СБОР ДАННЫХ
+                // Собираем данные
                 const baseOption = document.querySelector('#base-options .calc-option.selected .calc-option-name');
                 const baseName = baseOption ? baseOption.innerText : "Не выбрано";
                 
@@ -865,59 +834,29 @@
                 
                 const totalPrice = document.getElementById('total-price-display').innerText;
 
-                // СЦЕНАРИЙ А: Мы внутри Телеграма (через кнопку меню)
-                if (tg.initData.length > 0) {
-                    const dataToSend = {
-                        base: baseName,
-                        addons: selectedAddons.length > 0 ? selectedAddons.join(", ") : "Нет",
-                        pages: selectedPages.length > 0 ? selectedPages.join(", ") : "Нет",
-                        total: totalPrice
-                    };
-                    tg.sendData(JSON.stringify(dataToSend));
-                    // tg.close(); // Можно раскомментировать, если хотите, чтобы окно закрывалось сразу
+                // Формируем посылку
+                const dataToSend = {
+                    base: baseName,
+                    addons: selectedAddons.length > 0 ? selectedAddons.join(", ") : "Нет",
+                    pages: selectedPages.length > 0 ? selectedPages.join(", ") : "Нет",
+                    total: totalPrice
+                };
 
-                } else {
-                    // СЦЕНАРИЙ Б: Мы в обычном браузере (Chrome, Safari, ссылка)
-                    // Формируем текст сообщения вручную
-                    const textMessage = `🔥 <b>ЗАКАЗ С САЙТА (WEB)</b>\n\n` +
-                                        `🛠 <b>Тариф:</b> ${baseName}\n` +
-                                        `🧩 <b>Модули:</b> ${selectedAddons.length > 0 ? selectedAddons.join(", ") : "Нет"}\n` +
-                                        `📄 <b>Страницы:</b> ${selectedPages.length > 0 ? selectedPages.join(", ") : "Нет"}\n` +
-                                        `💰 <b>ИТОГО:</b> ${totalPrice}`;
+                // ОТПРАВЛЯЕМ В ТЕЛЕГРАМ
+                tg.sendData(JSON.stringify(dataToSend));
+                
+                // tg.close(); // Можно раскомментировать, если хотите, чтобы окно закрывалось сразу
 
-                    // Отправляем запрос напрямую в Телеграм
-                    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            chat_id: ADMIN_ID,
-                            text: textMessage,
-                            parse_mode: 'HTML'
-                        })
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            alert("✅ Спасибо! Ваша конфигурация отправлена Алексу.");
-                            btn.innerText = "ОТПРАВЛЕНО";
-                        } else {
-                            alert("Ошибка отправки. Свяжитесь через контакты.");
-                            btn.innerText = originalText;
-                        }
-                    })
-                    .catch(err => {
-                        alert("Ошибка сети: " + err);
-                        btn.innerText = originalText;
-                    });
-                }
-
-            } catch (error) {
-                alert("Ошибка в коде: " + error);
-                btn.innerText = originalText;
+            } catch (err) {
+                alert("Ошибка: " + err); // Если вдруг что-то пойдет не так
             }
         });
 
-        // --- 3. ОСТАЛЬНОЙ КОД (МАТРИЦА И ПР.) ---
-        
+
+        // --- НИЖЕ ВЕСЬ ВАШ ОРИГИНАЛЬНЫЙ КОД ДЛЯ ДИЗАЙНА И ЭФФЕКТОВ ---
+
+        const textLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+AL☰X";
+
         function startMatrixEffect(element) {
             const originalText = element.dataset.value; 
             let iteration = 0;
@@ -932,7 +871,7 @@
                     clearInterval(element.interval);
                     element.innerHTML = element.dataset.originalHtml;
                 }
-                iteration += 1;
+                iteration += 1; // Speed
             }, 20);
         }
 
@@ -943,16 +882,17 @@
 
         const terminal = document.getElementById('terminal');
         const preloader = document.getElementById('preloader');
-        const bootLines = ["SYSTEM READY...", "CONNECTING..."];
+        const bootLines = ["INITIALIZING CORE SYSTEMS...", "LOADING ASSETS: 100%", "CONNECTING TO SERVER...", "ESTABLISHING SECURE CONNECTION...", "ACCESS GRANTED.", "WELCOME TO by AL☰X."];
         let lineIndex = 0;
         function addLine() {
             if (lineIndex < bootLines.length) {
                 const line = document.createElement('span');
                 line.className = 'terminal-line';
+                if (lineIndex === bootLines.length - 1) line.classList.add('accent');
                 line.textContent = `> ${bootLines[lineIndex]}`;
                 terminal.appendChild(line);
                 lineIndex++;
-                setTimeout(addLine, 50); 
+                setTimeout(addLine, 50 + Math.random() * 100); 
             } else {
                 setTimeout(() => { preloader.classList.add('loaded'); document.body.classList.remove('loading'); }, 400); 
             }
@@ -962,6 +902,8 @@
         const gridGlow = document.getElementById('gridGlow');
         const cursorDot = document.querySelector('[data-cursor-dot]');
         const cursorOutline = document.querySelector('[data-cursor-outline]');
+        const body = document.body;
+        const tiltCards = document.querySelectorAll('[data-tilt]');
         const isMobile = window.matchMedia("(max-width: 900px)").matches;
 
         if (!isMobile) {
@@ -970,14 +912,116 @@
                 gridGlow.style.setProperty('--mouse-x', `${posX}px`); gridGlow.style.setProperty('--mouse-y', `${posY}px`);
                 cursorDot.style.left = `${posX}px`; cursorDot.style.top = `${posY}px`;
                 cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+
+                tiltCards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+                    card.style.setProperty('--card-x', `${x}px`); card.style.setProperty('--card-y', `${y}px`);
+                    if (e.clientX > rect.left - 50 && e.clientX < rect.right + 50 && e.clientY > rect.top - 50 && e.clientY < rect.bottom + 50) {
+                        const centerX = rect.left + rect.width / 2; const centerY = rect.top + rect.height / 2;
+                        const rotateX = ((e.clientY - centerY) / rect.height) * -8; 
+                        const rotateY = ((e.clientX - centerX) / rect.width) * 8;
+                        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+                    } else {
+                        card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) translateY(0)`;
+                    }
+                });
             });
+
             const matrixElements = document.querySelectorAll('.hover-matrix');
             matrixElements.forEach(element => {
                 element.dataset.originalHtml = element.innerHTML;
                 element.addEventListener('mouseenter', () => startMatrixEffect(element));
                 element.addEventListener('mouseleave', () => stopMatrixEffect(element));
             });
+            
+            const hoverEls = document.querySelectorAll('a, button, .cta-btn, .case-card, .price-card, .hover-matrix, .comp-item, .case-btn-full, .calc-option');
+            hoverEls.forEach(el => {
+                el.addEventListener('mouseenter', () => body.classList.add('hovering'));
+                el.addEventListener('mouseleave', () => body.classList.remove('hovering'));
+            });
         } 
+        
+        if (isMobile) {
+            const matrixElements = document.querySelectorAll('.hover-matrix');
+            matrixElements.forEach(el => { el.dataset.originalHtml = el.innerHTML; });
+
+            const interactiveElements = document.querySelectorAll('.glass-panel, .cta-btn, .case-btn-full, .hover-matrix, .calc-option');
+            
+            function handleMobileScroll() {
+                const centerLine = window.innerHeight / 2;
+                const sensitivity = window.innerHeight * 0.15; 
+
+                interactiveElements.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    const elCenter = rect.top + rect.height / 2;
+                    const isCenter = elCenter > centerLine - sensitivity && elCenter < centerLine + sensitivity;
+                    
+                    if (isCenter) {
+                        el.classList.add('mobile-hover');
+                        const relativeY = centerLine - rect.top;
+                        el.style.setProperty('--card-x', `${rect.width / 2}px`);
+                        el.style.setProperty('--card-y', `${relativeY}px`);
+
+                        if (el.classList.contains('hover-matrix') && !el.dataset.isAnimating) {
+                            el.dataset.isAnimating = "true";
+                            startMatrixEffect(el);
+                        }
+
+                    } else {
+                        el.classList.remove('mobile-hover');
+                        if (el.classList.contains('hover-matrix') && el.dataset.isAnimating) {
+                            el.dataset.isAnimating = ""; 
+                            stopMatrixEffect(el);
+                        }
+                    }
+                });
+                
+                requestAnimationFrame(handleMobileScroll);
+            }
+            handleMobileScroll();
+        }
+
+        const numLetters = "0123456789";
+        function runNumScramble(target) {
+            let iteration = 0; const originalText = target.innerText;
+            clearInterval(target.interval);
+            target.interval = setInterval(() => {
+                target.innerText = originalText.split("").map((char, index) => {
+                    if (index < iteration) return originalText[index];
+                    if (!parseInt(char) && char !== "0") return char; 
+                    return numLetters[Math.floor(Math.random() * 10)];
+                }).join("");
+                if (iteration >= originalText.length) clearInterval(target.interval);
+                iteration += 1/2; 
+            }, 30);
+        }
+
+        const observerOptions = { threshold: 0.15 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    const numbers = entry.target.querySelectorAll('.scramble-num');
+                    numbers.forEach(num => runNumScramble(num));
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
+
+        setInterval(() => {
+            const glitchTargets = document.querySelectorAll('.glitch-target');
+            const globalPhantom = document.querySelector('.global-phantom-img');
+            if(globalPhantom) { globalPhantom.classList.add('active'); setTimeout(() => globalPhantom.classList.remove('active'), 450); }
+            glitchTargets.forEach(target => {
+                const delay = Math.random() * 200;
+                setTimeout(() => {
+                    target.classList.add('glitch-effect'); target.setAttribute('data-text', target.innerText);
+                    setTimeout(() => target.classList.remove('glitch-effect'), 300 + Math.random() * 200);
+                }, delay);
+            });
+        }, 12000);
 
         const baseOptions = document.querySelectorAll('#base-options .calc-option');
         const addons = document.querySelectorAll('.calc-option.addon');
@@ -987,7 +1031,9 @@
 
         function updatePrice() {
             const total = basePrice + addonsPrice + pagesPrice;
+            const currentText = priceDisplay.innerText.replace(/[^0-9]/g, '');
             priceDisplay.innerText = total.toLocaleString('ru-RU') + ' ₽';
+            runNumScramble(priceDisplay);
         }
 
         baseOptions.forEach(option => {

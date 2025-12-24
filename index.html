@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
     <title>Разработка сайтов на чистом коде | Digital Solutions by Alex</title>
     <meta name="description" content="Создаю быстрые и стильные сайты на Pure HTML/CSS/JS. Никаких конструкторов и абонентской платы. Индивидуальный дизайн, анимации и высокая скорость загрузки.">
     <meta name="author" content="Alex">
@@ -805,7 +807,7 @@
             <div class="calc-right">
                 <span class="total-label">Итоговая оценка</span>
                 <span class="total-price scramble-num" id="total-price-display">15 000 ₽</span>
-                <a href="#contact" class="cta-btn glass-panel" style="width: 100%;">Заказать конфигурацию</a>
+                <a href="#" id="sendOrderBtn" class="cta-btn glass-panel" style="width: 100%;">Заказать конфигурацию</a>
             </div>
         </div>
     </section>
@@ -1090,6 +1092,49 @@
                 }
                 updatePrice();
             });
+        });
+
+        // ==========================================
+        // ИНТЕГРАЦИЯ С TELEGRAM WEB APP (by Gemini)
+        // ==========================================
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Растягиваем на весь экран
+
+        // Находим нашу кнопку "Заказать" по новому ID
+        document.getElementById('sendOrderBtn').addEventListener('click', function(e) {
+            e.preventDefault(); // Чтобы страница не дергалась
+
+            // 1. Собираем данные из конфигуратора
+            // -- Базовый тариф
+            const baseOption = document.querySelector('#base-options .calc-option.selected .calc-option-name');
+            const baseName = baseOption ? baseOption.innerText : "Не выбрано";
+            
+            // -- Дополнительные опции
+            const selectedAddons = Array.from(document.querySelectorAll('.calc-option.addon.selected'))
+                                        .map(el => el.querySelector('.calc-option-name').innerText);
+            
+            // -- Страницы
+            const selectedPages = Array.from(document.querySelectorAll('.calc-option.seq-page.selected'))
+                                       .map(el => el.querySelector('.calc-option-name').innerText);
+            
+            // -- Итоговая цена
+            const totalPrice = document.getElementById('total-price-display').innerText;
+
+            // 2. Формируем объект для отправки боту
+            const dataToSend = {
+                title: "Новый заказ с сайта",
+                base: baseName,
+                addons: selectedAddons.length > 0 ? selectedAddons.join(", ") : "Нет",
+                pages: selectedPages.length > 0 ? selectedPages.join(", ") : "Нет",
+                total: totalPrice
+            };
+
+            // 3. Отправляем данные боту
+            // JSON.stringify превращает объект в строку, чтобы Телеграм мог её передать
+            tg.sendData(JSON.stringify(dataToSend));
+            
+            // 4. (Опционально) Закрываем окно
+            // tg.close(); 
         });
 
     </script>

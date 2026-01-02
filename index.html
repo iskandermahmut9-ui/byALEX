@@ -34,8 +34,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;700;800&family=Pinyon+Script&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
 
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
     <style>
         /* --- 1. ГЛОБАЛЬНЫЕ НАСТРОЙКИ --- */
         :root {
@@ -391,6 +389,29 @@
             font-size: 3.5rem; color: var(--accent); font-weight: 800; 
             font-family: 'JetBrains Mono'; text-shadow: 0 0 20px rgba(255, 59, 111, 0.4);
             margin-bottom: 20px;
+        }
+
+        /* STYLES FOR INPUT FIELDS */
+        .calc-input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.3s;
+        }
+        .calc-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        .calc-input:focus {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(255, 59, 111, 0.2);
         }
         
         footer { padding: 80px 40px 40px 40px; border-top: 1px solid rgba(255,255,255,0.05); background: transparent; }
@@ -816,7 +837,13 @@
             <div class="calc-right">
                 <span class="total-label">Итоговая оценка</span>
                 <span class="total-price scramble-num" id="total-price-display">15 000 ₽</span>
-                <a href="#" id="sendOrderBtn" class="cta-btn glass-panel" style="width: 100%; text-align: center;">Заказать конфигурацию</a>
+                
+                <div class="input-group" style="width: 100%; margin-bottom: 10px;">
+                    <input type="text" id="clientName" placeholder="Ваше имя" class="calc-input">
+                    <input type="text" id="clientContact" placeholder="Telegram или телефон" class="calc-input">
+                </div>
+
+                <a href="#" id="sendOrderBtn" class="cta-btn glass-panel" style="width: 100%;">Заказать конфигурацию</a>
             </div>
         </div>
     </section>
@@ -843,50 +870,12 @@
     </footer>
 
     <script>
-        // 1. ИНИЦИАЛИЗАЦИЯ ТЕЛЕГРАМА
-        let tg = window.Telegram.WebApp;
-        tg.expand();
-
-        // 2. ОБРАБОТКА КЛИКА ПО КНОПКЕ "ЗАКАЗАТЬ"
-        document.getElementById('sendOrderBtn').addEventListener('click', function(e) {
-            e.preventDefault(); 
-
-            try {
-                // Собираем данные
-                const baseOption = document.querySelector('#base-options .calc-option.selected .calc-option-name');
-                const baseName = baseOption ? baseOption.innerText : "Не выбрано";
-                
-                const selectedAddons = Array.from(document.querySelectorAll('.calc-option.addon.selected'))
-                                            .map(el => el.querySelector('.calc-option-name').innerText);
-                
-                const selectedPages = Array.from(document.querySelectorAll('.calc-option.seq-page.selected'))
-                                           .map(el => el.querySelector('.calc-option-name').innerText);
-                
-                const totalPrice = document.getElementById('total-price-display').innerText;
-
-                // Формируем посылку
-                const dataToSend = {
-                    base: baseName,
-                    addons: selectedAddons.length > 0 ? selectedAddons.join(", ") : "Нет",
-                    pages: selectedPages.length > 0 ? selectedPages.join(", ") : "Нет",
-                    total: totalPrice
-                };
-
-                // ОТПРАВЛЯЕМ В ТЕЛЕГРАМ
-                tg.sendData(JSON.stringify(dataToSend));
-                
-                // tg.close(); // Можно раскомментировать, если хотите, чтобы окно закрывалось сразу
-
-            } catch (err) {
-                alert("Ошибка: " + err); // Если вдруг что-то пойдет не так
-            }
-        });
-
-
-        // --- НИЖЕ ВЕСЬ ВАШ ОРИГИНАЛЬНЫЙ КОД ДЛЯ ДИЗАЙНА И ЭФФЕКТОВ ---
-
+        // --- 1. GLOBAL SETTINGS ---
         const textLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+AL☰X";
+        const BOT_TOKEN = "8100708595:AAFWFCHB8H5iXiyd7TUjsC3fs2Mzvhx_tRU"; 
+        const CHAT_ID = "984929835"; 
 
+        // --- 2. MATRIX ANIMATION FUNCTIONS ---
         function startMatrixEffect(element) {
             const originalText = element.dataset.value; 
             let iteration = 0;
@@ -910,6 +899,7 @@
             element.innerHTML = element.dataset.originalHtml;
         }
 
+        // --- 3. PRELOADER ---
         const terminal = document.getElementById('terminal');
         const preloader = document.getElementById('preloader');
         const bootLines = ["INITIALIZING CORE SYSTEMS...", "LOADING ASSETS: 100%", "CONNECTING TO SERVER...", "ESTABLISHING SECURE CONNECTION...", "ACCESS GRANTED.", "WELCOME TO by AL☰X."];
@@ -929,6 +919,7 @@
         }
         window.addEventListener('load', () => setTimeout(addLine, 200));
 
+        // --- 4. LOGIC (HOVER/MOBILE) ---
         const gridGlow = document.getElementById('gridGlow');
         const cursorDot = document.querySelector('[data-cursor-dot]');
         const cursorOutline = document.querySelector('[data-cursor-outline]');
@@ -936,6 +927,7 @@
         const tiltCards = document.querySelectorAll('[data-tilt]');
         const isMobile = window.matchMedia("(max-width: 900px)").matches;
 
+        // --- PC LOGIC (MOUSE) ---
         if (!isMobile) {
             window.addEventListener('mousemove', (e) => {
                 const posX = e.clientX; const posY = e.clientY;
@@ -958,6 +950,7 @@
                 });
             });
 
+            // Desktop Matrix Trigger
             const matrixElements = document.querySelectorAll('.hover-matrix');
             matrixElements.forEach(element => {
                 element.dataset.originalHtml = element.innerHTML;
@@ -965,6 +958,7 @@
                 element.addEventListener('mouseleave', () => stopMatrixEffect(element));
             });
             
+            // Desktop Hover State
             const hoverEls = document.querySelectorAll('a, button, .cta-btn, .case-card, .price-card, .hover-matrix, .comp-item, .case-btn-full, .calc-option');
             hoverEls.forEach(el => {
                 el.addEventListener('mouseenter', () => body.classList.add('hovering'));
@@ -972,7 +966,9 @@
             });
         } 
         
+        // --- MOBILE "VIRTUAL CURSOR" LOGIC ---
         if (isMobile) {
+            // Initialize matrix elements for mobile
             const matrixElements = document.querySelectorAll('.hover-matrix');
             matrixElements.forEach(el => { el.dataset.originalHtml = el.innerHTML; });
 
@@ -980,7 +976,7 @@
             
             function handleMobileScroll() {
                 const centerLine = window.innerHeight / 2;
-                const sensitivity = window.innerHeight * 0.15; 
+                const sensitivity = window.innerHeight * 0.15; // Zone size
 
                 interactiveElements.forEach(el => {
                     const rect = el.getBoundingClientRect();
@@ -988,20 +984,25 @@
                     const isCenter = elCenter > centerLine - sensitivity && elCenter < centerLine + sensitivity;
                     
                     if (isCenter) {
+                        // 1. Visual Hover (Cards/Buttons)
                         el.classList.add('mobile-hover');
                         const relativeY = centerLine - rect.top;
                         el.style.setProperty('--card-x', `${rect.width / 2}px`);
                         el.style.setProperty('--card-y', `${relativeY}px`);
 
+                        // 2. Text Matrix Effect
                         if (el.classList.contains('hover-matrix') && !el.dataset.isAnimating) {
                             el.dataset.isAnimating = "true";
                             startMatrixEffect(el);
                         }
 
                     } else {
+                        // Reset
                         el.classList.remove('mobile-hover');
+                        
+                        // Stop Text Matrix
                         if (el.classList.contains('hover-matrix') && el.dataset.isAnimating) {
-                            el.dataset.isAnimating = ""; 
+                            el.dataset.isAnimating = ""; // clear flag
                             stopMatrixEffect(el);
                         }
                     }
@@ -1012,6 +1013,7 @@
             handleMobileScroll();
         }
 
+        // --- 5. COMMON LOGIC (Num Scramble, Observer, Glitch) ---
         const numLetters = "0123456789";
         function runNumScramble(target) {
             let iteration = 0; const originalText = target.innerText;
@@ -1040,6 +1042,7 @@
         }, observerOptions);
         document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
 
+        // ТАЙМИНГ 12 СЕКУНД (12000)
         setInterval(() => {
             const glitchTargets = document.querySelectorAll('.glitch-target');
             const globalPhantom = document.querySelector('.global-phantom-img');
@@ -1053,11 +1056,15 @@
             });
         }, 12000);
 
+        // --- 6. CALCULATOR LOGIC (SEQUENTIAL PAGES) ---
         const baseOptions = document.querySelectorAll('#base-options .calc-option');
         const addons = document.querySelectorAll('.calc-option.addon');
-        const pageButtons = document.querySelectorAll('.calc-option.seq-page');
+        const pageButtons = document.querySelectorAll('.calc-option.seq-page'); // Кнопки страниц
         const priceDisplay = document.getElementById('total-price-display');
-        let basePrice = 15000; let addonsPrice = 0; let pagesPrice = 0;
+        
+        let basePrice = 15000;
+        let addonsPrice = 0;
+        let pagesPrice = 0;
 
         function updatePrice() {
             const total = basePrice + addonsPrice + pagesPrice;
@@ -1066,6 +1073,7 @@
             runNumScramble(priceDisplay);
         }
 
+        // Ядро (Радио)
         baseOptions.forEach(option => {
             option.addEventListener('click', () => {
                 baseOptions.forEach(o => o.classList.remove('selected'));
@@ -1075,29 +1083,130 @@
             });
         });
 
+        // Модули (Чекбоксы)
         addons.forEach(addon => {
             addon.addEventListener('click', () => {
                 addon.classList.toggle('selected');
-                if (addon.classList.contains('selected')) addonsPrice += parseInt(addon.dataset.price);
-                else addonsPrice -= parseInt(addon.dataset.price);
+                if (addon.classList.contains('selected')) {
+                    addonsPrice += parseInt(addon.dataset.price);
+                } else {
+                    addonsPrice -= parseInt(addon.dataset.price);
+                }
                 updatePrice();
             });
         });
 
+        // СТРАНИЦЫ (ПОСЛЕДОВАТЕЛЬНАЯ ЛОГИКА)
         pageButtons.forEach((btn, index) => {
             btn.addEventListener('click', () => {
-                if (!btn.classList.contains('disabled')) {
-                    if (btn.classList.contains('selected')) {
-                         btn.classList.remove('selected');
-                         pagesPrice -= parseInt(btn.dataset.price);
-                    } else {
-                         btn.classList.add('selected');
-                         pagesPrice += parseInt(btn.dataset.price);
+                // Если кнопка уже выбрана -> отключаем её и ВСЕ последующие
+                if (btn.classList.contains('selected')) {
+                    for (let i = index; i < pageButtons.length; i++) {
+                        if (pageButtons[i].classList.contains('selected')) {
+                            pageButtons[i].classList.remove('selected');
+                            pagesPrice -= parseInt(pageButtons[i].dataset.price);
+                        }
+                        // Блокируем следующие
+                        if (i > index) {
+                             pageButtons[i].classList.add('disabled');
+                        }
                     }
-                    updatePrice();
+                    // Если это не последняя кнопка, блокируем следующую
+                    if (index < pageButtons.length - 1) {
+                        pageButtons[index + 1].classList.add('disabled');
+                    }
+
+                } else {
+                    // Если кнопка НЕ выбрана -> включаем её (только если не заблокирована)
+                    if (!btn.classList.contains('disabled')) {
+                        btn.classList.add('selected');
+                        pagesPrice += parseInt(btn.dataset.price);
+                        
+                        // Разблокируем следующую кнопку
+                        if (index < pageButtons.length - 1) {
+                            pageButtons[index + 1].classList.remove('disabled');
+                        }
+                    }
                 }
+                updatePrice();
             });
         });
+
+        // --- 7. TELEGRAM SENDING LOGIC (API) ---
+        document.getElementById('sendOrderBtn').addEventListener('click', function(e) {
+            e.preventDefault(); 
+            
+            // Получаем контакты
+            const clientName = document.getElementById('clientName').value;
+            const clientContact = document.getElementById('clientContact').value;
+
+            // Проверка на заполнение
+            if (!clientName || !clientContact) {
+                alert("Пожалуйста, укажите Имя и Контакт, чтобы я мог с вами связаться.");
+                return;
+            }
+
+            const btn = this;
+            const originalText = btn.innerText;
+
+            // 1. Собираем данные
+            const baseOption = document.querySelector('#base-options .calc-option.selected .calc-option-name');
+            const baseName = baseOption ? baseOption.innerText : "Не выбрано";
+            
+            const selectedAddons = Array.from(document.querySelectorAll('.calc-option.addon.selected'))
+                                        .map(el => el.querySelector('.calc-option-name').innerText);
+            
+            const selectedPages = Array.from(document.querySelectorAll('.calc-option.seq-page.selected'))
+                                       .map(el => el.querySelector('.calc-option-name').innerText);
+            
+            const totalPrice = document.getElementById('total-price-display').innerText;
+
+            // 2. Формируем сообщение
+            const message = `🔥 <b>НОВЫЙ ЗАКАЗ С САЙТА!</b>\n\n👤 <b>Клиент:</b> ${clientName}\n📞 <b>Связь:</b> ${clientContact}\n\n⚙️ <b>Конфигурация:</b>\n├ <b>Ядро:</b> ${baseName}\n├ <b>Модули:</b> ${selectedAddons.length > 0 ? selectedAddons.join(", ") : "Нет"}\n└ <b>Страницы:</b> ${selectedPages.length > 0 ? selectedPages.join(", ") : "Нет"}\n\n💰 <b>Итого:</b> ${totalPrice}`;
+
+            // 3. Визуальный эффект загрузки
+            btn.innerText = "Отправка...";
+            btn.style.opacity = "0.7";
+
+            // 4. Отправляем запрос к API Telegram
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message,
+                    parse_mode: 'HTML'
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    btn.innerText = "Успешно отправлено! ✅";
+                    btn.style.backgroundColor = "rgba(46, 204, 113, 0.2)"; // Зеленоватый фон
+                    btn.style.borderColor = "#2ecc71";
+                    
+                    // Очистить поля
+                    document.getElementById('clientName').value = '';
+                    document.getElementById('clientContact').value = '';
+                } else {
+                    throw new Error('Ошибка сети');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                btn.innerText = "Ошибка отправки ❌";
+                btn.style.borderColor = "red";
+            })
+            .finally(() => {
+                btn.style.opacity = "1";
+                // Возвращаем кнопку в исходное состояние через 3 секунды
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.backgroundColor = ""; 
+                    btn.style.borderColor = ""; 
+                }, 4000);
+            });
+        });
+
     </script>
 </body>
 </html>
